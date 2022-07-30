@@ -67,12 +67,16 @@ export const getOnePost = async (req,res)=>{
 }
 export const likePost = async (req, res) => {
     const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-    
-    const post = await PostMessage.findById(id);
-
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
-    
-    res.json(updatedPost);
+    try{
+      const post = await Posts.findById(id);
+      if (post) {
+        const updatedPost = await Posts.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+        res.status(201).send(updatedPost);
+      } else {
+        res.status(500).send('post not found');
+      }
+    }catch(e){
+      res.status(500)
+      console.log(e)
+    }
 }
