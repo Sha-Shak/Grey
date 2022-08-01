@@ -6,10 +6,15 @@ const postSchema = new mongoose.Schema({
   message: String,
   tag:[String],
   selectedFile: String,
-  likeCount: {
-    type: Number,
-    default: 0
-  }
+  likes: {
+    type: [String],
+    default: [], 
+  },
+  comments: [
+     { 
+      id: String,
+      comment: String,
+  }]
 },{timestamps: true});
 const Posts = mongoose.model('Posts', postSchema)
 export default Posts;
