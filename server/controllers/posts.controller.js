@@ -10,10 +10,16 @@ export const getPosts = async (req,res)=>{
 }
 export const createPost = async (req,res)=>{
   try{
-    const {title, message, creator, tag, selectedFile, likeCount, comments} = req.body;
-    const postMessage = await Posts.create({title, message, creator, tag, selectedFile, likeCount,comments})
-    res.status(201);
-    res.send(postMessage);
+    const post = req.body;
+    if(req.anonId){
+      const postMessage = await Posts.create({...post, creator: req?.anonId})
+      res.status(201);
+      res.send(postMessage);
+    } else {
+      const postMessage = await Posts.create(post)
+      res.status(201);
+      res.send(postMessage);
+    }
   } catch(e){
     res.status(500);
     console.log(e)
@@ -21,12 +27,13 @@ export const createPost = async (req,res)=>{
 }
 export const createComment = async (req,res)=>{
   try{
-    const postId = req.params.id;
-    const {comment} = req.body;
+    
+    const {comment, postId} = req.body;
+    console.log("controller:", comment, req.userId, postId)
     const post = await Posts.findById(postId)
-    post.comments.push({id:postId, comment: comment})
-    const updatedPost = await Posts.findByIdAndUpdate(postId, post)
-    console.log(updatedPost.comments);
+    console.log("comments controller", comment)
+    post.comments.push({id:postId, comment: comment, userId: req.userId})
+    const updatedPost = await Posts.findByIdAndUpdate(postId, post, {new: true},)
     res.status(201).send(updatedPost);
   } catch(e){
     res.status(500);

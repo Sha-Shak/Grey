@@ -4,12 +4,12 @@ import Users from '../models/user.model.js';
 export const logInUser = async (req,res)=>{
   try{
     const {email, password} = req.body;
-    const existingUser = await Users.findOne({email});
-    if(!existingUser) return res.status(404).send("User doesn't exist");
-    const isPassword =  await bcrypt.compare(password, existingUser.password)
+    const result = await Users.findOne({email});
+    if(!result) return res.status(404).send("User doesn't exist");
+    const isPassword =  await bcrypt.compare(password, result.password)
     if (!isPassword) return res.status(400).json({message: "JSON Wrong Password"})
-    const token = jwt.sign({email: existingUser.email, id: existingUser._id}, "aa@#A1", {expiresIn: "1hr"})
-    res.status(200).json({email: existingUser.email, existingUser , token})
+    const token = jwt.sign({email: result.email, id: result._id}, "aa@#A1", {expiresIn: "1hr"})
+    res.status(200).json({email: result.email, result , token})
   }catch(e){
     res.status(500).json({message: "something went wrong"})
   }

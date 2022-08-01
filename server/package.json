@@ -18,5 +18,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.5",
     "nodemon": "^2.0.19"
+  },
+  "devDependencies": {
+    "eslint": "^8.21.0"
   }
 }

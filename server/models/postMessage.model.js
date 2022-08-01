@@ -12,8 +12,9 @@ const postSchema = new mongoose.Schema({
   },
   comments: [
      { 
-      id: String,
-      comment: String,
+       id: String,
+       comment: String,
+       userId: String,
   }]
 },{timestamps: true});
 const Posts = mongoose.model('Posts', postSchema)
