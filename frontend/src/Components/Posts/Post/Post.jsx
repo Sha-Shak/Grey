@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -31,17 +31,19 @@ const Post = ({post}) => {
     console.log("like", id)
     dispatch(likePost(id))
   }
+ 
   const handleClick =(id )=>{
     dispatch(getOnePost(id,  navigate ));
-    
-    
   }
   return (
+   
     <Card sx={{padding: '0px', position: 'relative'}}>
+    
+     <CardActionArea onClick={()=> handleClick(post._id)}>
       <CardMedia  component="img" sx={{height: "200px"}} image={post.selectedFile} title={post.title}/>
-        <Grid container sx={{display: 'flex', position: 'absolute', top: '5%', padding: '10px'}}>
+        <Grid container sx={{display: 'flex', position: 'absolute', top: '0%', padding: '10px',  backgroundColor: '#00000026', cursor: 'pointer'}}>
           <Grid item sx={{flex: '0.7'}}>
-            <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: '1.5rem '}} variant="h5" onClick={()=> handleClick(post._id)}>{post.title}</Typography>
+            <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: '1.5rem '}} variant="h5" >{post.title}</Typography>
             <Typography variant="h6" sx={{color: 'white', fontWeight: 'bold', fontSize: '1.2rem '}}>{moment(post.createdAt).fromNow()}</Typography>
           </Grid>
           <Grid item sx={{flex: '0.3'}}>{(authorizedUser) ? (<Button size="small" sx={{color: 'white'}} onClick={(e)=>handleEdit(post._id)}> <MoreHorizIcon sx={{fontSize: '40px'}}/> </Button>) : null}
@@ -53,6 +55,7 @@ const Post = ({post}) => {
         <CardContent sx={{ padding: '10px', paddingTop: '0px'}}>
           <Typography sx={{padding: '0'}} variant="body2">{post.message.length > 20 ? ( post.message.slice(0,60) + "..." ): post.message}</Typography>
         </CardContent>
+        </CardActionArea>
         <CardActions sx={{display: 'flex', justifyContent: 'space-between', padding: '0'}}>
           <Button  onClick={(e)=>handleLike(post._id)} color="primary"><ThumbUpOffAltIcon /> Like {post.likeCount} </Button>
           {(authorizedUser) ?

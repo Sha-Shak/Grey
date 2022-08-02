@@ -6,24 +6,25 @@ import { createComment } from '../../../actions/posts.js';
 import SinglePost from './SinglePost';
 
 const PostDetail = () => {
+  const post = useSelector((state)=> state.onePost);
   const navigate = useNavigate();
+  useEffect(()=>{
+    if(!post._id) navigate("/")  //todo doesn't work 
+  },[])
+  console.log("post exist: ", post._id)
   const dispatch = useDispatch();
   const storage = localStorage.getItem('user');
   const [user, setUser] = useState(JSON.parse(storage)) ;
-  const post = useSelector((state)=> state.onePost);
   const [comments, setComments] = useState([...post.comments])
-  console.log("initialComments", comments)
+  console.log("initialComments", post)
   const fetchComments= useSelector((state)=> state.comments);
   useEffect(()=>{
-    console.log(comments);
+    console.log("comments", comments);
     setComments(prevComments=> {
       console.log("previous comments: ",prevComments);
       return ([...prevComments, ...fetchComments]) 
       })
  },[])
-  useEffect(()=>{
-    if(!post) navigate("/") //todo doesn't work 
-  },[])
   const numOfComments = comments.length;
   
    
@@ -51,7 +52,7 @@ const PostDetail = () => {
       <Button variant="contained" color="primary" type="submit">Add Comment</Button>
       </form>
       <div>
-        {user.result 
+        {user?.result 
           ? (
             <div>
               <Grid container>

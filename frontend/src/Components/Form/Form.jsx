@@ -38,7 +38,9 @@ const Form = () => {
     <Paper sx={{padding: '10px', backgroundColor: '#f7f7f8'}}>
       <form onSubmit={handleSubmit}>
           { onePost ? (<Typography variant='h6' sx={{textAlign: 'center', borderBottom: 'thin solid lightgray'}} >  Edit a post </Typography>) : (<Typography sx={{textAlign: 'center', borderBottom: 'thin solid lightgray'}} variant='h6' >  Create a post </Typography>) }
-        <TextField sx={{marginTop: '10px', marginBottom: '10px'}} name="creator" value={postData.creator } variant = "outlined" label="creator" fullWidth onInput={(e)=> setPostData({...postData, creator: e.target.value})} />
+       { !user ? 
+        (<TextField sx={{marginTop: '10px', marginBottom: '10px'}} name="creator" value={postData.creator } variant = "outlined" label="creator" fullWidth onInput={(e)=> setPostData({...postData, creator: e.target.value})} />) 
+        : null}
         <TextField sx={{marginTop: '10px', marginBottom: '10px'}} name="title" variant = "outlined" label="Title" fullWidth value={  postData.title } onInput={(e)=> setPostData({...postData, title: e.target.value})} required/>
         <TextField sx={{marginTop: '10px', marginBottom: '10px'}} multiline maxRows={8} name="message" variant = "outlined" label="Message" fullWidth value={  postData.message } onChange={(e)=> setPostData({...postData, message: e.target.value})} required />
         <TextField sx={{marginTop: '10px', marginBottom: '20px'}} name="tag" variant = "outlined"  label="Tags" fullWidth value={ postData.tag } onChange={(e)=> setPostData({...postData, tag: e.target.value.split(',')})} required />

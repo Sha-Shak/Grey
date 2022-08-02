@@ -8,7 +8,7 @@ export default function SearchInput({setData}) {
    const posts = useSelector((state)=>state.posts) 
    const handleSearch = (value)=>{
      console.log(value);
-    const filter = posts.filter(post=> post.title.includes(value))
+    const filter = posts.filter(post=> post.title.toLowerCase().includes(value))
     setData(filter)
    }
   return (
@@ -17,7 +17,7 @@ export default function SearchInput({setData}) {
         disableClearable
         options={posts.map((option) => option.title)}
         renderInput={(params) => (
-          <TextField  name= "search"  onChange={(e)=> handleSearch(e.target.value)}
+          <TextField  name= "search"  onChange={(e)=> handleSearch(e.target.value.toLowerCase())}
             {...params}
             label="Search here..."
             InputProps={{

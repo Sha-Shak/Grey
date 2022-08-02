@@ -10,17 +10,17 @@ const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(storage)) 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  console.log(user)
+  console.log("user:", user)
   
    const styles = {
     appBar: {
-        display: 'flex',
-        flexDirection: 'row',
-        borderRadius: 15,
-        margin: '30px 0',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '10px 50px',
+    borderRadius: 15,
+    margin: '30px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px 50px',
       },
      brandText: {
       color: 'rgba(0,183,225,1)',
@@ -32,26 +32,46 @@ const Navbar = () => {
      navBarImg: {
           marginLeft: '10px',
           marginTop: '5px',
-        }
+    },
+    toolbar: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      width: '400px',
+      },
+      profile: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      width: '400px',
+  },
+  userName: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  brandContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   }
   useEffect(()=>{
     setUser(JSON.parse(storage))
   },[storage])
+
+ 
   const handleLogOut = (user)=>{
     dispatch(logOutUser(user, navigate))
     user = null;
   }
   return (
      <AppBar sx={styles.appBar}  position="static" color="inherit">
-      <Grid container >
+      <Grid container sx={styles.brandContainer}>
         <img sx={styles.navBarImg} src={logo} alt="icon" height="60" />
         <Typography component = {Link} to="/" sx={styles.brandText} variant="h2" align="center">Grey</Typography>
       </Grid>
-      <Toolbar> 
+      <Toolbar sx={styles.toolbar}> 
         { user ? (
-          <Grid container sx={{display: "flex"}}>
-            <Avatar alt={user.result.name} >{user.result.name.charAt(0)}</Avatar>
-            <Typography variant="h6">{user.result.email.split(' ')[0]}</Typography>
+          <Grid container sx={styles.profile}>
+            <Avatar sx={{marginRight: '10px'}} alt={user.result.name} >{user.result.name.charAt(0)}</Avatar>
+        {/* <Typography sx={{marginRight: '10px'}} variant="h6">{user.result.email.split(' ')[0]}</Typography> */}
             <Button variant="contained" color="secondary" onClick={(e)=>{handleLogOut(user)}}>Log Out</Button>
           </Grid>
         ) : (

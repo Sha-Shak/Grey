@@ -1,6 +1,5 @@
 import LockIcon from '@mui/icons-material/Lock';
 import { Avatar, Button, Container, Grid, Grow, Paper, Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -83,11 +82,11 @@ const Auth = () => {
           <Grid container spacing={2}>
             {
               isSignUp ? (
-               <Box sx={ {...styles.names, ...styles.center}}>
+                <Grid item sx={{display: 'flex'}}>
                   <CustomInput name="firstName" label="First Name" handleChange={handleChange}  half />
                   <CustomInput name="lastName" label="Last Name" handleChange={handleChange}  half />
-                </Box>
-              ) : null
+                </Grid>
+               ) : null
             }
             <CustomInput type="email" name="email" label="Email Address" handleChange={handleChange}/>
             <CustomInput type={showPassword ? "text" : "password"} name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} />
@@ -97,9 +96,9 @@ const Auth = () => {
 
             }
           </Grid>
-           <Button type="submit"  variant="contained" color="primary">{isSignUp ? "Sign Up" : "Sign In" }</Button>
-           <Grid container>
-           <Grid item>
+           <Button sx={{marginTop: '10px'}} type="submit"  variant="contained" color="primary">{isSignUp ? "Sign Up" : "Sign In" }</Button>
+           <Grid container sx={{textAlign: 'center'}}>
+           <Grid item sx={{textAlign: 'center'}}>
            <Button onClick={switchMode}> {isSignUp ? "Already Have an account? Sign In" : "Don't have an account? Sign Up" }</Button>
            </Grid>
            </Grid>
