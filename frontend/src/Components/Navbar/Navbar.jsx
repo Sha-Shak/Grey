@@ -10,7 +10,6 @@ const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(storage)) 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  console.log("user:", user)
   
    const styles = {
     appBar: {

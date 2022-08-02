@@ -20,7 +20,7 @@ const Form = () => {
   const handleSubmit= (e)=>{
     e.preventDefault();
     if(!editId){
-      dispatch(createPost(postData, user?.name)) 
+      dispatch(createPost(postData)) 
     } else {  
       dispatch(formEditPost(editId, postData))
       onePost = null;
