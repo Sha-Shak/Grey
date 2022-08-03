@@ -29,7 +29,10 @@ export default function reduce  (posts=[], action){
       ) 
       case 'SEARCH' : 
         console.log("reduce search", action.payload)
-        return action.payload 
+        return action.payload;
+      case 'CREATE_COMMENT' : 
+        console.log("Comment Reduce", action.payload)
+        return  action.payload;
       
     default:
       return posts;

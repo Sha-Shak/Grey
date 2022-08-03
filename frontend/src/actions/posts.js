@@ -12,7 +12,7 @@ export const getPosts=()=> async(dispatch)=>{
 
 export const getOnePost=(id, navigate)=> async(dispatch)=>{
   try{
-    const {data }= await api.fetchOnePost(id);
+    const {data}= await api.fetchOnePost(id);
     console.log("fetchOne", data);
     dispatch({type: 'FETCH_ONE', payload: data})
     navigate("/post")
@@ -88,11 +88,11 @@ export const searchValue=(data)=> (dispatch)=>{
 }
 
 export const createComment=(value, postId)=> async(dispatch)=>{
-  console.log("create comment action",value, postId);
+  // console.log("create comment action",value, postId);
   try{
     const {data} = await api.createComment(value, postId);
-    console.log("commented post", data)
-    dispatch({type: 'CREATE_COMMENT', payload: data.comments})
+    // console.log("commented post", data)
+    dispatch({type: 'CREATE_COMMENT', payload: data})
   }catch(e){
     console.log(e)
   }

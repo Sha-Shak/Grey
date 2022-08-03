@@ -1,4 +1,5 @@
 import Posts from "../models/postMessage.model.js";
+import Users from '../models/user.model.js';
 export const getPosts = async (req,res)=>{
   try{
     const message = await Posts.find();
@@ -31,10 +32,15 @@ export const createComment = async (req,res)=>{
     const {comment, postId} = req.body;
     console.log("controller:", comment, req.userId, postId)
     const post = await Posts.findById(postId)
-    console.log("comments controller", comment)
-    post.comments.push({id:postId, comment: comment, userId: req.userId})
-    const updatedPost = await Posts.findByIdAndUpdate(postId, post, {new: true},)
-    res.status(201).send(updatedPost);
+    const user = await Users.findById(req.userId)
+    if(post && user){
+      console.log("comments controller", comment)
+      post.comments.push({id:postId, comment: comment, userId: user.name})
+      const updatedPost = await Posts.findByIdAndUpdate(postId, post, {new: true},)
+      res.status(201).send(updatedPost);
+    } else {
+      res.status(400).send('Post and User not found!')
+    }
   } catch(e){
     res.status(500);
     console.log(e)

@@ -22,11 +22,13 @@ const Navbar = () => {
     padding: '10px 50px',
       },
      brandText: {
-      color: 'rgba(0,183,225,1)',
+      color: '#6d616f',
       textDecoration: 'none',
       fontSize: '2em',
       fontWeight: '700',
-      marginTop: '7px'
+      marginTop: '7px',
+      letterSpacing: '3px',
+
      } ,
      navBarImg: {
           marginLeft: '10px',
@@ -64,14 +66,14 @@ const Navbar = () => {
      <AppBar sx={styles.appBar}  position="static" color="inherit">
       <Grid container sx={styles.brandContainer}>
         <img sx={styles.navBarImg} src={logo} alt="icon" height="60" />
-        <Typography component = {Link} to="/" sx={styles.brandText} variant="h2" align="center">Grey</Typography>
+        <Typography component = {Link} to="/" sx={styles.brandText} variant="h2" align="center">GREY</Typography>
       </Grid>
       <Toolbar sx={styles.toolbar}> 
         { user ? (
           <Grid container sx={styles.profile}>
             <Avatar sx={{marginRight: '10px'}} alt={user.result.name} >{user.result.name.charAt(0)}</Avatar>
         {/* <Typography sx={{marginRight: '10px'}} variant="h6">{user.result.email.split(' ')[0]}</Typography> */}
-            <Button variant="contained" color="secondary" onClick={(e)=>{handleLogOut(user)}}>Log Out</Button>
+            <Button variant="contained" sx={{backgroundColor: '#dd0700'}} onClick={(e)=>{handleLogOut(user)}}>Log Out</Button>
           </Grid>
         ) : (
           <Button component={Link} to="/auth" variant="contained">Sign In</Button>

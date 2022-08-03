@@ -6,29 +6,25 @@ import { createComment } from '../../../actions/posts.js';
 import SinglePost from './SinglePost';
 
 const PostDetail = () => {
-  const post = useSelector((state)=> state.onePost);
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(!post._id) navigate("/")  //todo doesn't work 
-  },[])
-  console.log("post exist: ", post._id)
   const dispatch = useDispatch();
   const storage = localStorage.getItem('user');
   const [user, setUser] = useState(JSON.parse(storage)) ;
-  const [comments, setComments] = useState([...post.comments])
-  console.log("initialComments", post)
-  const fetchComments= useSelector((state)=> state.comments);
+  const post = useSelector((state)=> state.onePost);
+ 
   useEffect(()=>{
-    console.log("comments", comments);
-    setComments(prevComments=> {
-      console.log("previous comments: ",prevComments);
-      return ([...prevComments, ...fetchComments]) 
-      })
- },[])
-  const numOfComments = comments.length;
-  
-   
-  //const [newPost, setNewPost] = useState(post)
+    
+    if(!post) navigate("/") //todo doesn't work 
+  },[])
+  // console.log("before post : ", post.comments)
+  // const [comments, setComments] = useState(post.comments)
+  // console.log("initialComments", comments)
+  // const fetchComments= useSelector((state)=> state.comments);
+  // console.log("compare comments", fetchComments, comments );
+//   useEffect(()=>{
+//     return setComments(fetchComments) 
+//  },[fetchComments])
+  const numOfComments = post.comments.length;
 
   const handleComment= (id, comment)=>{
     
@@ -38,34 +34,37 @@ const PostDetail = () => {
     const value = e.target.comment.value
     console.log("value is: ", value)
     dispatch(createComment(value,  post._id))
-   // setComments(prevComments=> ( {...prevComments, value}))
+    // console.log("after dispatch",fetchComments)
+    
   }
  
   return (
   
       <div>
       <SinglePost post={post}/>
-       <form onSubmit={handleSubmit}>
-      <Grid item xs={12}>
-        <TextField multiline maxRows={8} name="comment" variant = "outlined" label="Add a Comment..." fullWidth  onChange={(e)=> handleComment(post._id, e.target.value)} />
-      </Grid>
-      <Button variant="contained" color="primary" type="submit">Add Comment</Button>
-      </form>
+      
       <div>
-        {user?.result 
+        {
+          (user)
           ? (
             <div>
+              <form onSubmit={handleSubmit}>
+                <Grid item xs={12}>
+                  <TextField multiline maxRows={8} name="comment" variant = "outlined" label="Add a Comment..." fullWidth  onChange={(e)=> handleComment(post._id, e.target.value)} />
+                </Grid>
+                <Button variant="contained" color="primary" type="submit">Add Comment</Button>
+              </form>
               <Grid container>
-                <Typography item variant = "h3">Comment({numOfComments})</Typography>
-                
+                <Typography item variant = "h5">Comment({numOfComments})</Typography>
               </Grid>
               <Grid container>
               { !(numOfComments>0) 
                 ? (<Typography item variant="h6" sx={{color:'grey'}}>No comments yet</Typography>) 
                 : (
                    <Grid container> {
-                      comments.map(comment=> (  
-                     <Grid item key={comment._id} fullwidth>{comment.comment}</Grid> 
+                      post.comments.map((comment)=> (  
+                        
+                     <Grid item key={comment._id} fullwidth sx={{width: '100%', padding: '15px', borderBottom: 'thin solid lightgray'}}>{`${comment.comment}, user: ${comment.userId}`}</Grid> 
                       
                       ))
                     }
@@ -76,7 +75,9 @@ const PostDetail = () => {
               </Grid>
             </div>
           ) 
-          : null
+          : (<Grid container>
+              <Grid item variant="h5" sx={{position: 'absolute', left: '40%', cursor: "pointer"}} onClick={e=> {navigate('/auth')}}> Please Log In to see the comments </Grid>
+            </Grid>)
         }
       </div>
       </div>

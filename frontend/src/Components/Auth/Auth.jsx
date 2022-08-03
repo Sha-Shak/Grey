@@ -64,7 +64,8 @@ const Auth = () => {
     logInPaper:{
       padding: '30px',
       width: '30vw',
-      height: 'auto'
+      height: 'auto',
+      paddingBottom: '40px'
     }
    
 
@@ -82,8 +83,8 @@ const Auth = () => {
           <Grid container spacing={2}>
             {
               isSignUp ? (
-                <Grid item sx={{display: 'flex'}}>
-                  <CustomInput name="firstName" label="First Name" handleChange={handleChange}  half />
+                <Grid item sx={{display: 'flex', justifyContent: 'space-between'}}>
+                  <CustomInput  name="firstName" label="First Name" handleChange={handleChange}  half />
                   <CustomInput name="lastName" label="Last Name" handleChange={handleChange}  half />
                 </Grid>
                ) : null
@@ -98,7 +99,7 @@ const Auth = () => {
           </Grid>
            <Button sx={{marginTop: '10px'}} type="submit"  variant="contained" color="primary">{isSignUp ? "Sign Up" : "Sign In" }</Button>
            <Grid container sx={{textAlign: 'center'}}>
-           <Grid item sx={{textAlign: 'center'}}>
+           <Grid item sx={{position: 'absolute', right: '0%', padding: '20px', paddingTop: '5px', paddingBottom: '10px' }}>
            <Button onClick={switchMode}> {isSignUp ? "Already Have an account? Sign In" : "Don't have an account? Sign Up" }</Button>
            </Grid>
            </Grid>

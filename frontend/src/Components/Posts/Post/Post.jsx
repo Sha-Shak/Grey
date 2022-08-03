@@ -1,5 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditIcon from '@mui/icons-material/Edit';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import moment from 'moment';
@@ -40,10 +40,10 @@ const Post = ({post}) => {
       <CardMedia  component="img" sx={{height: "200px"}} image={post.selectedFile} title={post.title}/>
         <Grid container sx={{display: 'flex', position: 'absolute', top: '0%', padding: '10px',  backgroundColor: '#00000026', cursor: 'pointer'}}>
           <Grid item sx={{flex: '0.7'}}>
-            <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: '1.5rem '}} variant="h5" >{post.title}</Typography>
-            <Typography variant="h6" sx={{color: 'white', fontWeight: 'bold', fontSize: '1.2rem '}}>{moment(post.createdAt).fromNow()}</Typography>
+            <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: '1.2rem '}} variant="h5" >{post.title}</Typography>
+            <Typography variant="h6" sx={{color: 'white', fontWeight: 'bold', fontSize: '0.9rem '}}>{moment(post.createdAt).fromNow()}</Typography>
           </Grid>
-          <Grid item sx={{flex: '0.3'}}>{(authorizedUser) ? (<Button size="small" sx={{color: 'white'}} onClick={(e)=>handleEdit(post._id)}> <MoreHorizIcon sx={{fontSize: '40px'}}/> </Button>) : null}
+          <Grid item sx={{flex: '0.3'}}>{(authorizedUser) ? (<Button size="small" sx={{color: 'white'}} onClick={(e)=>handleEdit(post._id)}> <EditIcon sx={{fontSize: '35px'}}/> </Button>) : null}
           </Grid>
         </Grid>
         <CardActionArea onClick={()=> handleClick(post._id)}>
