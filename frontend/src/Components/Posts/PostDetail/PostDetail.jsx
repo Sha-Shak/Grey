@@ -16,6 +16,8 @@ const PostDetail = () => {
     
     if(!post) navigate("/") //todo doesn't work 
   },[])
+
+  // complete mess. but kept it for reference. So that i don't repeat this mistake. 
   // console.log("before post : ", post.comments)
   // const [comments, setComments] = useState(post.comments)
   // console.log("initialComments", comments)
