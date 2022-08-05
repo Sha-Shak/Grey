@@ -1,33 +1,22 @@
-import Posts from "../models/postMessage.model.js";
-import Users from '../models/user.model.js';
-import {Request, Response } from 'express'
+const Posts =  require("../models/postMessage.model.ts");
+const Users =  require('../models/user.model.ts');
+import { Request, Response } from 'express';
 
 type QueryParams = {
   id: string
 }
 
-export const deletePost = async (req: Request<QueryParams> ,res: Response)=>{
-  try{
-    const id:string = req.params.id;
-    await Posts.findByIdAndDelete(id)   
-    res.status(201);
-    res.send("post deleted");  
-  } catch(e){
-    res.status(500);
-    console.log(e)
-  }
-}
-
-
-export const getPosts = async (req,res)=>{
+export const getPosts = async (req: Request, res: Response)=>{
   try{
     const message = await Posts.find();
-    return res.status(200).json(message)
+    return res.status(200).json(message);
   }catch(e){
     res.status(500);
     console.log(e)
   }
 }
+
+
 export const createPost = async (req,res)=>{
   try{
     const post = req.body;
@@ -45,9 +34,10 @@ export const createPost = async (req,res)=>{
     console.log(e)
   }
 }
+
+
 export const createComment = async (req,res)=>{
-  try{
-    
+  try{  
     const {comment, postId} = req.body;
     console.log("controller:", comment, req.userId, postId)
     const post = await Posts.findById(postId)
@@ -65,6 +55,8 @@ export const createComment = async (req,res)=>{
     console.log(e)
   }
 }
+
+
 export const updatePost = async (req,res)=>{
   try{
     const {title, message, creator, tag, selectedFile, likeCount} = req.body;
@@ -89,9 +81,22 @@ export const updatePost = async (req,res)=>{
   }
 }
 
-export const getOnePost = async (req,res)=>{
+export const deletePost = async (req: Request<QueryParams> ,res: Response)=>{
   try{
-    const id = req.params.id;
+    const id:string = req.params.id;
+    await Posts.findByIdAndDelete(id)   
+    res.status(201);
+    res.send("post deleted");  
+  } catch(e){
+    res.status(500);
+    console.log(e)
+  }
+}
+
+
+export const getOnePost = async (req: Request, res: Response)=>{
+  try{
+    const id: string = req.params.id;
     const post = await Posts.findById(id)   
     res.status(201);
     res.send(post);  
@@ -100,6 +105,8 @@ export const getOnePost = async (req,res)=>{
     console.log(e)
   }
 }
+
+
 export const likePost = async (req, res) => {
     const { id } = req.params;
     if(!req.userId) return res.json({message: "Unauthenticated"});

@@ -22,19 +22,20 @@ const Post: FunctionComponent<PostProps> = ({post}: PostProps) => {
   let authorizedUser = false
   
   if(siteUser === post?.creator) authorizedUser= true; 
-  const handleEdit = (id)=>{
+  const handleEdit = (id: string)=>{
+    console.log(id, 'ai di')
     dispatch(editPost(id));
   }
-  const handleDelete = (id)=>{
+  const handleDelete = (id: string)=>{
     console.log(" deleted id: ", id)
     dispatch(deletePost(id))
   }
-  const handleLike= (id)=>{
+  const handleLike= (id: string)=>{
     console.log("like", id)
     dispatch(likePost(id))
   }
  
-  const handleClick =(id )=>{
+  const handleClick =(id: string)=>{
     dispatch(getOnePost(id,  navigate ));
   }
   return (
@@ -47,7 +48,7 @@ const Post: FunctionComponent<PostProps> = ({post}: PostProps) => {
             <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: '1.2rem '}} variant="h5" >{post.title}</Typography>
             <Typography variant="h6" sx={{color: 'white', fontWeight: 'bold', fontSize: '0.9rem '}}>{moment(post.createdAt).fromNow()}</Typography>
           </Grid>
-          <Grid item sx={{flex: '0.3'}}>{(authorizedUser) ? (<Button size="small" sx={{color: 'white'}} onClick={(e)=>handleEdit(post._id)}> <EditIcon sx={{fontSize: '35px'}}/> </Button>) : null}
+          <Grid item sx={{flex: '0.3'}}>{(authorizedUser) ? (<Button size="small" sx={{color: 'white'}} onClick={()=>handleEdit(post._id)}> <EditIcon sx={{fontSize: '35px'}}/> </Button>) : null}
           </Grid>
         </Grid>
         <CardActionArea onClick={()=> handleClick(post._id)}>
@@ -59,9 +60,9 @@ const Post: FunctionComponent<PostProps> = ({post}: PostProps) => {
           </CardContent>
         </CardActionArea>
         <CardActions sx={{display: 'flex', justifyContent: 'space-between', padding: '0'}}>
-          <Button sx={{color: user[0] ? "primary" : "gray"}} onClick={(e)=>handleLike(post._id)} color="primary"><ThumbUpOffAltIcon /> Like {post.likes.length} </Button>
+          <Button sx={{color: user[0] ? "primary" : "gray"}} onClick={()=>handleLike(post._id)} color="primary"><ThumbUpOffAltIcon /> Like {post.likes.length} </Button>
           {(authorizedUser) ?
-            (<Button  onClick={(e)=>handleDelete(post._id)}  color="primary"> <DeleteIcon/> Delete  </Button>)
+            (<Button  onClick={()=>handleDelete(post._id)}  color="primary"> <DeleteIcon/> Delete  </Button>)
             : null
           }
         </CardActions>
