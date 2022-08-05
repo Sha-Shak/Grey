@@ -1,6 +1,8 @@
 import Posts from "../models/postMessage.model.js";
 import Users from '../models/user.model.js';
-export const getPosts = async (req,res)=>{
+import { Request, Response } from 'express';
+
+export const getPosts = async (req: Request, res: Response)=>{
   try{
     const message = await Posts.find();
     return res.status(200).json(message)
@@ -80,9 +82,9 @@ export const deletePost = async (req,res)=>{
     console.log(e)
   }
 }
-export const getOnePost = async (req,res)=>{
+export const getOnePost = async (req: Request, res: Response)=>{
   try{
-    const id = req.params.id;
+    const id: string = req.params.id;
     const post = await Posts.findById(id)   
     res.status(201);
     res.send(post);  
