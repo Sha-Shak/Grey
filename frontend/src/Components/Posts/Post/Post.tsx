@@ -10,7 +10,7 @@ import { deletePost, editPost, getOnePost, likePost } from '../../../actions/pos
 import { IPost } from '../../Interfaces';
 
 interface PostProps {
- post: IPost
+ post: IPost,
 };
 
 const Post: FunctionComponent<PostProps> = ({post}: PostProps) => {
