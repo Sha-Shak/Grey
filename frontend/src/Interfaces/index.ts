@@ -7,6 +7,7 @@ export interface IPost {
   tag: string[],
   title: string,
   updatedAt: string,
+  createdAt: string,
   __v: number,
   _id: string,
 }

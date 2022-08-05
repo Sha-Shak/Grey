@@ -3,7 +3,7 @@ import { FunctionComponent ,useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { createComment } from '../../../actions/posts.js';
-import { RootState } from '../../Interfaces/index.js';
+import { Comment, RootState } from '../../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 
 const PostDetail: FunctionComponent = () => {
@@ -19,9 +19,6 @@ const PostDetail: FunctionComponent = () => {
 
   const numOfComments = post.comments.length;
 
-  const handleComment= (id, comment)=>{
-    
-  }
   const handleSubmit= (e)=>{
      e.preventDefault()
     const value = e.target.comment.value
@@ -41,7 +38,7 @@ const PostDetail: FunctionComponent = () => {
             <div>
               <form onSubmit={handleSubmit}>
                 <Grid item xs={12}>
-                  <TextField multiline maxRows={8} name="comment" variant = "outlined" label="Add a Comment..." fullWidth  onChange={(e)=> handleComment(post._id, e.target.value)} />
+                  <TextField multiline maxRows={8} name="comment" variant = "outlined" label="Add a Comment..." fullWidth/>
                 </Grid>
                 <Button variant="contained" color="primary" type="submit">Add Comment</Button>
               </form>
@@ -53,7 +50,7 @@ const PostDetail: FunctionComponent = () => {
                 ? (<Typography item variant="h6" sx={{color:'grey'}}>No comments yet</Typography>) 
                 : (
                    <Grid container> {
-                      post.comments.map((comment)=> (  
+                      post.comments.map((comment: Comment)=> (  
                         
                      <Grid item key={comment._id} fullwidth sx={{width: '100%', padding: '15px', borderBottom: 'thin solid lightgray'}}>{`${comment.comment}, user: ${comment.userId}`}</Grid> 
                       

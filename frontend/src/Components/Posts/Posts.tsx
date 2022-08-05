@@ -2,7 +2,7 @@ import { CircularProgress, Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Post from './Post/Post';
-import { IPost, RootState } from '../Interfaces';
+import { IPost, RootState } from '../../Interfaces';
 
 const Posts = ({setData, data}) => {
   
