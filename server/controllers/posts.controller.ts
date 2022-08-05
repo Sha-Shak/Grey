@@ -1,11 +1,11 @@
-import Posts from "../models/postMessage.model.js";
-import Users from '../models/user.model.js';
+const Posts =  require("../models/postMessage.model.ts");
+//const Users =  require('../models/user.model.js');
 import { Request, Response } from 'express';
 
 export const getPosts = async (req: Request, res: Response)=>{
   try{
     const message = await Posts.find();
-    return res.status(200).json(message)
+    return res.status(200).json(message);
   }catch(e){
     res.status(500);
     console.log(e)
@@ -28,6 +28,7 @@ export const createPost = async (req,res)=>{
     console.log(e)
   }
 }
+/*
 export const createComment = async (req,res)=>{
   try{
     
@@ -48,6 +49,7 @@ export const createComment = async (req,res)=>{
     console.log(e)
   }
 }
+*/
 export const updatePost = async (req,res)=>{
   try{
     const {title, message, creator, tag, selectedFile, likeCount} = req.body;

@@ -1,4 +1,20 @@
-import mongoose from 'mongoose';
+const mongoose = require('./index.ts');
+
+interface IPost {
+  creator: string,
+  title: string,
+  message: string,
+  tag: string[],
+  selectedFile: string,
+  likes: string[],
+  comments: IComment[]
+}
+
+interface IComment {
+  id: string,
+  comment: string,
+  userId: string
+}
 
 const postSchema = new mongoose.Schema({
   creator: String,
@@ -17,5 +33,5 @@ const postSchema = new mongoose.Schema({
        userId: String,
   }]
 },{timestamps: true});
-const Posts = mongoose.model('Posts', postSchema)
-export default Posts;
+
+module.exports = mongoose.model('Post', postSchema);
