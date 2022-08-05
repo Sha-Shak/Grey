@@ -1,5 +1,22 @@
 import Posts from "../models/postMessage.model.js";
 import Users from '../models/user.model.js';
+import {Request, Response } from 'express'
+
+type QueryParams = {
+  id: string
+}
+
+export const deletePost = async (req: Request<QueryParams> ,res: Response)=>{
+  try{
+    const id:string = req.params.id;
+    await Posts.findByIdAndDelete(id)   
+    res.status(201);
+    res.send("post deleted");  
+  } catch(e){
+    res.status(500);
+    console.log(e)
+  }
+}
 
 
 export const getPosts = async (req,res)=>{
@@ -71,17 +88,7 @@ export const updatePost = async (req,res)=>{
     console.log(e)
   }
 }
-export const deletePost = async (req,res)=>{
-  try{
-    const id = req.params.id;
-    await Posts.findByIdAndDelete(id)   
-    res.status(201);
-    res.send("post deleted");  
-  } catch(e){
-    res.status(500);
-    console.log(e)
-  }
-}
+
 export const getOnePost = async (req,res)=>{
   try{
     const id = req.params.id;
