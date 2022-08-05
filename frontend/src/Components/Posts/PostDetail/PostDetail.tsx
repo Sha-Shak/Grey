@@ -1,31 +1,22 @@
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { FunctionComponent ,useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { createComment } from '../../../actions/posts.js';
+import { RootState } from '../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 
-const PostDetail = () => {
+const PostDetail: FunctionComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const storage = localStorage.getItem('user');
-  const [user, setUser] = useState(JSON.parse(storage)) ;
-  const post = useSelector((state)=> state.onePost);
+  const storage: any = localStorage.getItem('user');
+  const [user, setUser] = useState(JSON.parse(storage));
+  const post = useSelector((state: RootState)=> state.onePost);
  
-  useEffect(()=>{
-    
+  useEffect(()=>{  
     if(!post) navigate("/") //todo doesn't work 
   },[])
 
-  // complete mess. but kept it for reference. So that i don't repeat this mistake. 
-  // console.log("before post : ", post.comments)
-  // const [comments, setComments] = useState(post.comments)
-  // console.log("initialComments", comments)
-  // const fetchComments= useSelector((state)=> state.comments);
-  // console.log("compare comments", fetchComments, comments );
-//   useEffect(()=>{
-//     return setComments(fetchComments) 
-//  },[fetchComments])
   const numOfComments = post.comments.length;
 
   const handleComment= (id, comment)=>{
@@ -36,8 +27,6 @@ const PostDetail = () => {
     const value = e.target.comment.value
     console.log("value is: ", value)
     dispatch(createComment(value,  post._id))
-    // console.log("after dispatch",fetchComments)
-    
   }
  
   return (

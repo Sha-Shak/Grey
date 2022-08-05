@@ -1,10 +1,10 @@
-export interface Post {
+export interface IPost {
   comments : Comment[],
   creator: string,
   likes: string[],
   message: string,
   selectedFile: string,
-  tag: [],
+  tag: string[],
   title: string,
   updatedAt: string,
   __v: number,
@@ -19,5 +19,6 @@ export interface Comment {
 }
 
 export interface RootState {
-  posts: []
+  posts: any[],
+  onePost: IPost
 }

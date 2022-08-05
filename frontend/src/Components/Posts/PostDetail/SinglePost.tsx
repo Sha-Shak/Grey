@@ -1,6 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import React from 'react';
+import React, {FunctionComponent} from 'react';
+import { IPost } from '../../Interfaces';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -9,8 +10,11 @@ const Img = styled('img')({
   maxHeight: '100%',
 });
 
+interface SinglePostProps {
+  post: IPost
+};
 
-const SinglePost = ({post}) => {
+const SinglePost: FunctionComponent<SinglePostProps> = ({post}: SinglePostProps) => {
   return (  <>
       
       <Paper>
