@@ -1,5 +1,7 @@
 import Posts from "../models/postMessage.model.js";
 import Users from '../models/user.model.js';
+
+
 export const getPosts = async (req,res)=>{
   try{
     const message = await Posts.find();
