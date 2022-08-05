@@ -1,7 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React, {FunctionComponent} from 'react';
-import { IPost } from '../../Interfaces';
+import { IPost } from '../../../Interfaces';
 
 const Img = styled('img')({
   margin: 'auto',

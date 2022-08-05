@@ -7,7 +7,7 @@ import React, { FunctionComponent , useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { deletePost, editPost, getOnePost, likePost } from '../../../actions/posts';
-import { IPost } from '../../Interfaces';
+import { IPost } from '../../../Interfaces';
 
 interface PostProps {
  post: IPost

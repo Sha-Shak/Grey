@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { IPost, RootState } from '../Interfaces'
+import { IPost, RootState } from '../../Interfaces'
 
 //he passed a setData, why?
 

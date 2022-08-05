@@ -3,7 +3,7 @@ import { FunctionComponent ,useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { createComment } from '../../../actions/posts.js';
-import { RootState } from '../../Interfaces/index.js';
+import { RootState } from '../../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 
 const PostDetail: FunctionComponent = () => {
