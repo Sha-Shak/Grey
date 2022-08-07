@@ -4,40 +4,59 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React, { FunctionComponent , useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
 import { deletePost, editPost, getOnePost, likePost } from '../../../actions/posts';
 import { IPost } from '../../../Interfaces';
+import { useNavigate } from 'react-router';
+import * as api from '../../../api/apiClient'
 
 interface PostProps {
- post: IPost
+ post: IPost,
+ editPost: (id: string) => any,
+ deletePost: (id: string) => any,
+ likePost: (id: string) => any,
+ getOnePost: (id: string) => any
 };
 
-const Post: FunctionComponent<PostProps> = ({post}: PostProps) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const Post: FunctionComponent<PostProps> = ({post, editPost, deletePost, likePost, getOnePost}: PostProps) => {
   const storage: any = localStorage.getItem('user');
+  const navigate = useNavigate();
   const user = useState(JSON.parse(storage));
   const siteUser = user[0]?.result._id; 
   let authorizedUser = false
   
   if(siteUser === post?.creator) authorizedUser= true; 
-  const handleEdit = (id: string)=>{
-    console.log(id, 'ai di')
-    dispatch(editPost(id));
-  }
+
+  // const handleEdit = (id: string)=>{
+  //   editPost(id);
+  // }
+
   const handleDelete = (id: string)=>{
     console.log(" deleted id: ", id)
-    dispatch(deletePost(id))
+    deletePost(id);
   }
+
   const handleLike= (id: string)=>{
     console.log("like", id)
-    dispatch(likePost(id))
+    likePost(id);
   }
  
-  const handleClick =(id: string)=>{
-    dispatch(getOnePost(id,  navigate ));
+  // const handleClick = (id: string) => {
+  //   getOnePost(id);
+  //   navigate("/post");
+  // }
+
+  const handleClick = async(id: string) => {
+    console.log('geeeeee')
+    try {
+      const {data}= await api.fetchOnePost(id);
+      console.log(data, 'la data')
+      navigate('/post', { state: data});
+      // setCurrentPost(data);
+    } catch(e) {
+      console.log(e)
+    }
   }
+
   return (
    
     <Card sx={{padding: '0px', position: 'relative'}}>

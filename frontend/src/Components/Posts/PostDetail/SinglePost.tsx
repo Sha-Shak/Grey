@@ -15,6 +15,7 @@ interface SinglePostProps {
 };
 
 const SinglePost: FunctionComponent<SinglePostProps> = ({post}: SinglePostProps) => {
+  console.log(post, 'single post')
   return (  
     <>
       <Paper>

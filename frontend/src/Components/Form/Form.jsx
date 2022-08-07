@@ -1,13 +1,11 @@
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64';
-import { useDispatch, useSelector } from 'react-redux';
-import { createPost, formEditPost } from '../../actions/posts';
 
-//
+const initialState = {creator: '', title: '', message: '', tag: [], selectedFile: ''};
 
 const Form = () => {
-  const [postData, setPostData] =useState({creator: '', title: '', message: '', tag: [], selectedFile: ''})
+  const [postData, setPostData] = useState(initialState);
   //const post = useSelector((state) => (id ? state.posts.find((message) => message._id === currentId) : null));
   const editId = useSelector(state=>state.edit);
   let onePost = useSelector(state=> editId ? state.posts.find((post)=> post._id === editId) : null);
@@ -17,6 +15,7 @@ const Form = () => {
   useEffect(()=>{
     if(onePost) setPostData(onePost)
   },[onePost])
+  
   const handleSubmit= (e)=>{
     e.preventDefault();
     if(!editId){
@@ -29,11 +28,13 @@ const Form = () => {
     setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''})
     console.log('Submit clicked') 
     }
+
   const handleClear = ()=>{
     setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''})
     onePost = null;
     console.log('clear clicked')
   }
+
   return (
     <Paper sx={{padding: '10px', backgroundColor: '#f7f7f8'}}>
       <form onSubmit={handleSubmit}>

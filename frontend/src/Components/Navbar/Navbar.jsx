@@ -1,14 +1,12 @@
 import { AppBar, Avatar, Button, Grid, Toolbar, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { logOutUser } from '../../actions/auth';
+// import { logOutUser } from '../../actions/auth';
 import logo from '../../Images/tlogo.png';
 
 const Navbar = () => {
   const storage = localStorage.getItem('user')
   const [user, setUser] = useState(JSON.parse(storage)) 
-  const dispatch = useDispatch();
   const navigate = useNavigate()
   
    const styles = {
@@ -59,7 +57,7 @@ const Navbar = () => {
 
  
   const handleLogOut = (user)=>{
-    dispatch(logOutUser(user, navigate))
+    // dispatch(logOutUser(user, navigate))
     user = null;
   }
   return (

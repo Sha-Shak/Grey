@@ -1,26 +1,35 @@
 import { CircularProgress, Grid } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import Post from './Post/Post';
 import { IPost, RootState } from '../../Interfaces';
 
-const Posts = ({setData, data}) => {
+interface PostsProps {
+  setData: any,
+  data: IPost[],
+  posts: IPost[],
+  editPost: (id: string) => any,
+  deletePost: (id: string) => any,
+  likePost: (id: string) => any,
+  getOnePost: (id: string) => any,
+};
+
+
+const Posts = ({setData, data, posts, editPost, deletePost, likePost, getOnePost}: PostsProps) => {
   
-  const posts = useSelector((state: RootState) => state.posts)
- 
-  useEffect(()=>{
-    setData(posts)
-  }, [posts])
-  
+
+  // useEffect(()=>{
+  //   setData(posts)
+  // }, [posts]);
+  console.log(posts, 'los postes')
  
   return (
 
      !posts.length ? <CircularProgress/> : (
       <Grid container alignItems= "stretch" spacing={3}>
       {
-        data.map((post: IPost)=> (
+        posts.map((post: IPost)=> (
           <Grid key={post._id} item xs={12} sm={6}>
-            <Post post={post}/>
+            <Post post={post} editPost={editPost} deletePost={deletePost} likePost={likePost} getOnePost={getOnePost}/>
           </Grid>
         ))
       }

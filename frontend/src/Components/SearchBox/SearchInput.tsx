@@ -2,19 +2,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { IPost, RootState } from '../../Interfaces'
 
 interface SearchProps {
-  setData: any
+  posts: IPost[],
+  filter: (value: string) => any
 }
 
-export default function SearchInput({setData}: SearchProps) {
+export default function SearchInput({posts, filter}: SearchProps) {
 
-   const posts = useSelector((state: RootState) => state.posts) 
    const handleSearch = (value: string)=>{
-    const filter = posts.filter((post: IPost) => post.title.toLowerCase().includes(value))
-    setData(filter)
+    filter(value);
    }
 
   return (
