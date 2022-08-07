@@ -2,7 +2,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 import { FunctionComponent ,useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 //import { createComment } from '../../../actions/posts.ts';
-import { Comment, IPost, RootState } from '../../../Interfaces/index.js';
+import { Comment, IPost } from '../../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 
 interface PostDetailProps {
@@ -10,10 +10,12 @@ interface PostDetailProps {
 }
 
 const PostDetail: FunctionComponent<PostDetailProps> = ({post}: PostDetailProps) => {
+  const storage: any = localStorage.getItem('user');
+  const [ user, setUser ] = useState(JSON.parse(storage));
   const location = useLocation();
   const data = location.state as IPost;
   const navigate = useNavigate();
-  const user = null;
+  console.log(user, 'el user')
 
 
   const handleSubmit= (e: any)=>{

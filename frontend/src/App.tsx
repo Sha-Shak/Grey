@@ -8,6 +8,7 @@ import Navbar from './Components/Navbar/Navbar';
 import PostDetail from './Components/Posts/PostDetail/PostDetail';
 import { AxiosResponse } from "axios";
 import { IPost } from './Interfaces';
+import { mainContext } from './Helper/context';
 
 
 
@@ -16,7 +17,14 @@ function App () {
   const [ posts, setPosts ] = useState<any>([]); //me toco recurrir a any
   const [ currentPost, setCurrentPost ] = useState<any>();
   const [ totalPosts, setTotalPosts ] = useState<any>([]);
+  const [ userContext, setUserContext ] = useState({})
   
+  /*
+    const getuser = async () => {
+    const user = await getUserById()
+    setUserContext(user)    
+  }
+  */
 
   useEffect(() => {
     const getPosts = async() => {
@@ -62,7 +70,6 @@ function App () {
     console.log('geeeeee')
     try {
       const {data}= await api.fetchOnePost(id);
-      console.log(data, 'la data')
       setCurrentPost(data);
     } catch(e) {
       console.log(e)
@@ -75,16 +82,18 @@ function App () {
   }
 
   return (
-    <BrowserRouter>
-      <Container maxWidth="lg">
-        <Navbar/>
-        <Routes>
-          <Route path="/" element = {<Home editPost={editPost} deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost} filter={filter}/>} />
-          {/* <Route path="/auth"  element = {<Auth/>} /> */}
-          <Route path="/post"  element = {<PostDetail post={currentPost}/>} />  
-        </Routes>
-      </Container>
-    </BrowserRouter>
+    <mainContext.Provider  value={{userContext, setUserContext}}>
+      <BrowserRouter>
+        <Container maxWidth="lg">
+          <Navbar/>
+          <Routes>
+            <Route path="/" element = {<Home editPost={editPost} deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost} filter={filter}/>} />
+            <Route path="/auth"  element = {<Auth/>} />
+            <Route path="/post"  element = {<PostDetail post={currentPost}/>} />  
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </mainContext.Provider>
   )
 }
 

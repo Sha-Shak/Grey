@@ -19,10 +19,10 @@ interface PostProps {
 
 const Post: FunctionComponent<PostProps> = ({post, editPost, deletePost, likePost, getOnePost}: PostProps) => {
   const storage: any = localStorage.getItem('user');
-  const navigate = useNavigate();
   const user = useState(JSON.parse(storage));
   const siteUser = user[0]?.result._id; 
   let authorizedUser = false
+  const navigate = useNavigate();
   
   if(siteUser === post?.creator) authorizedUser= true; 
 

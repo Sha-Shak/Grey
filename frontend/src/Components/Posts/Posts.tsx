@@ -1,11 +1,8 @@
 import { CircularProgress, Grid } from '@mui/material';
-import React, { useEffect } from 'react';
 import Post from './Post/Post';
-import { IPost, RootState } from '../../Interfaces';
+import { IPost } from '../../Interfaces';
 
 interface PostsProps {
-  setData: any,
-  data: IPost[],
   posts: IPost[],
   editPost: (id: string) => any,
   deletePost: (id: string) => any,
@@ -14,13 +11,7 @@ interface PostsProps {
 };
 
 
-const Posts = ({setData, data, posts, editPost, deletePost, likePost, getOnePost}: PostsProps) => {
-  
-
-  // useEffect(()=>{
-  //   setData(posts)
-  // }, [posts]);
-  console.log(posts, 'los postes')
+const Posts = ({posts, editPost, deletePost, likePost, getOnePost}: PostsProps) => {
  
   return (
 

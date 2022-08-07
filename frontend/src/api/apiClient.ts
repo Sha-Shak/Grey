@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IPost } from '../Interfaces';
+import { IPost, ILoginUser, INewUser } from '../Interfaces';
 
 
 const url = 'http://localhost:8080';
@@ -20,5 +20,5 @@ export const deleteOnePost = (id: string)=> axios.delete(`${url}/posts/${id}`);
 export const likePost = (id: string)=> axios.patch(`${url}/posts/${id}/likePost`);
 export const createComment = (comment: string, postId: string)=> axios.patch(`${url}/posts/${postId}/comment`, {comment, postId});
 //user
-export const logInUser = (formData) => axios.post(`${url}/user/signin`, formData);
-export const createUser = (formData) => axios.post(`${url}/user/signup`, formData);
+export const logInUser = (formData: ILoginUser) => axios.post(`${url}/user/signin`, formData).then((response) => response);
+export const createUser = (formData: INewUser) => axios.post(`${url}/user/signup`, formData).then((response) => response);

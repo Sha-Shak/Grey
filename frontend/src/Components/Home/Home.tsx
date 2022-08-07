@@ -16,7 +16,6 @@ interface HomeProps {
 
 
 const Home: FunctionComponent<HomeProps> = ({editPost, deletePost, likePost, posts, getOnePost, filter}: HomeProps) => {
-  const [data, setData] = useState([])
 
   return (
      <Grow in>
@@ -26,7 +25,7 @@ const Home: FunctionComponent<HomeProps> = ({editPost, deletePost, likePost, pos
             <SearchInput posts={posts} filter={filter}/>
            </Grid>
             <Grid item xs={12} sm={7}>
-              <Posts  data={data} setData={setData} editPost={editPost} deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost}/>
+              <Posts editPost={editPost} deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost}/>
             </Grid>
             <Grid item xs={12} sm={5} >
             {/* <Form /> */}

@@ -1,10 +1,11 @@
 import LockIcon from '@mui/icons-material/Lock';
 import { Avatar, Button, Container, Grid, Grow, Paper, Typography } from '@mui/material';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { createUser, logInUser } from '../../actions/auth';
+// import { createUser, logInUser } from '../../actions/auth';
 import CustomInput from './Input';
+import * as api from '../../api/apiClient'
 
 const initialState= { firstName: '', email:'', lastName: '', password: '', confirmPassword: ''}
 
@@ -12,31 +13,48 @@ const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false)
   const [formData, setFormData] = useState(initialState)
   const [showPassword, setShowPassword] = useState(false)
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate()
   const handleShowPassword = () => setShowPassword(!showPassword)
+
   const handleChange= (e)=>{
     setFormData({...formData, [e.target.name]: e.target.value})
   }
-  const handleSubmit = (e)=>{
+
+  const handleSubmit = async(e)=>{
     e.preventDefault();
     if(isSignUp){
-      console.log("form",formData)
-      dispatch(createUser(formData, navigate));
+      try {
+        const {data} = await api.createUser(formData);
+        localStorage.setItem('user', JSON.stringify({...data}));
+        console.log(formData, 'for', data)
+        navigate('/')
+      } catch(e) {
+        console.log(e);
+      }
      
     } else {
-      //cleaning data cause for login other input field is null
       const {email, password} = formData;
-      dispatch(logInUser({email, password}, navigate))
-    }
-    
+      try {
+        const {data} = await api.logInUser({email, password});
+        console.log(data)
+        localStorage.setItem('user', JSON.stringify({...data}));
+        navigate('/')
+      } catch(e) {
+        console.log(e); 
+      }
+    } 
   }
+
+
   const switchMode=()=>{
     console.log(" switched", isSignUp , showPassword)
     setIsSignUp(prevIsSignUp=> !prevIsSignUp);
     setShowPassword(false)
     console.log(" ch switched", isSignUp, showPassword)
   }
+
+
   const styles = {
     names: {
       display: 'flex',
@@ -66,11 +84,10 @@ const Auth = () => {
       width: '30vw',
       height: 'auto',
       paddingBottom: '40px'
-    }
-   
-
-    
+    } 
   }
+
+
   return (
     <Container>
     <Grow in>
