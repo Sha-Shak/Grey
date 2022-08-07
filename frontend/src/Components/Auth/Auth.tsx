@@ -1,34 +1,31 @@
 import LockIcon from '@mui/icons-material/Lock';
 import { Avatar, Button, Container, Grid, Grow, Paper, Typography } from '@mui/material';
 import { useState } from 'react';
-// import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-// import { createUser, logInUser } from '../../actions/auth';
 import CustomInput from './Input';
-import * as api from '../../api/apiClient'
+import * as api from '../../api/apiClient';
+import { styles } from './styles';
 
-const initialState= { firstName: '', email:'', lastName: '', password: '', confirmPassword: ''}
+const initialState= { firstName: '', email:'', lastName: '', password: '', confirmPassword: ''};
 
 const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false)
-  const [formData, setFormData] = useState(initialState)
-  const [showPassword, setShowPassword] = useState(false)
-  // const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const handleShowPassword = () => setShowPassword(!showPassword)
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState(initialState);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const handleChange= (e)=>{
-    setFormData({...formData, [e.target.name]: e.target.value})
+  const handleChange = (e: any) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
   }
 
-  const handleSubmit = async(e)=>{
+  const handleSubmit = async(e: any) => {
     e.preventDefault();
     if(isSignUp){
       try {
         const {data} = await api.createUser(formData);
         localStorage.setItem('user', JSON.stringify({...data}));
-        console.log(formData, 'for', data)
-        navigate('/')
+        navigate('/');
       } catch(e) {
         console.log(e);
       }
@@ -37,9 +34,8 @@ const Auth = () => {
       const {email, password} = formData;
       try {
         const {data} = await api.logInUser({email, password});
-        console.log(data)
         localStorage.setItem('user', JSON.stringify({...data}));
-        navigate('/')
+        navigate('/');
       } catch(e) {
         console.log(e); 
       }
@@ -47,44 +43,9 @@ const Auth = () => {
   }
 
 
-  const switchMode=()=>{
-    console.log(" switched", isSignUp , showPassword)
+  const switchMode = () => {
     setIsSignUp(prevIsSignUp=> !prevIsSignUp);
-    setShowPassword(false)
-    console.log(" ch switched", isSignUp, showPassword)
-  }
-
-
-  const styles = {
-    names: {
-      display: 'flex',
-      flexDirection: 'row',
-      padding: '0 15px ',
-      justifyContent: 'center',
-
-    },
-    header: {
-      marginBottom: '20px',
-      borderBottom: 'thin solid lightgray', 
-      textAlign: 'center'
-    },
-    center:{
-      textAlign: 'center',
-      position: 'absolute', 
-      left: '35%', 
-      top: '20%',
-      transform: 'translate(-50%, -50%)'
-    },
-    formInput: {
-      padding: '35px',
-      margin: '10%'
-    },
-    logInPaper:{
-      padding: '30px',
-      width: '30vw',
-      height: 'auto',
-      paddingBottom: '40px'
-    } 
+    setShowPassword(false);
   }
 
 
@@ -101,8 +62,8 @@ const Auth = () => {
             {
               isSignUp ? (
                 <Grid item sx={{display: 'flex', justifyContent: 'space-between'}}>
-                  <CustomInput  name="firstName" label="First Name" handleChange={handleChange}  half />
-                  <CustomInput name="lastName" label="Last Name" handleChange={handleChange}  half />
+                  <CustomInput  name="firstName" label="First Name" handleChange={handleChange}  half={true}/>
+                  <CustomInput name="lastName" label="Last Name" handleChange={handleChange}  half={true}/>
                 </Grid>
                ) : null
             }
