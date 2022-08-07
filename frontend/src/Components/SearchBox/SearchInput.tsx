@@ -5,11 +5,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { IPost, RootState } from '../../Interfaces'
 
-//he passed a setData, why?
+interface SearchProps {
+  setData: any
+}
 
-export default function SearchInput({setData}) {
+export default function SearchInput({setData}: SearchProps) {
 
-  console.log(setData, 'trying')
    const posts = useSelector((state: RootState) => state.posts) 
    const handleSearch = (value: string)=>{
     const filter = posts.filter((post: IPost) => post.title.toLowerCase().includes(value))
