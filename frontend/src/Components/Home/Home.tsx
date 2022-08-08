@@ -2,7 +2,7 @@ import { Container, Grid, Grow } from '@mui/material';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { IPost } from '../../Interfaces';
 import Form from '../Form/Form';
-import Posts from '../Posts/Posts';
+import Posts from '../PostsList/Posts';
 import SearchInput from '../SearchBox/SearchInput';
 import * as api from '../../api/apiClient';
 
@@ -15,27 +15,27 @@ const Home: FunctionComponent<IHomeProps> = ({getOnePost}: IHomeProps) => {
   const [ posts, setPosts ] = useState<any>([]); //me toco recurrir a any
   const [ totalPosts, setTotalPosts ] = useState<any>([]);
 
-  useEffect(() => {
-    const getPosts = async() => {
-      try {
-        const {data} = await api.fetchPosts();
-        setPosts(data);
-        setTotalPosts(data);
-      } catch (e) {
-        alert(`There has been an error: ${e}`)
-      }
+  const getPosts = async() => {
+    try {
+      const {data} = await api.fetchPosts();
+      setPosts(data);
+      setTotalPosts(data);
+    } catch (e) {
+      alert(`There has been an error: ${e}`)
     }
+  }
 
+  useEffect(() => {
     getPosts();
   }, []);
 
-  const editPost = async(id: string) => {
-    // try {
-    //   const {data} = await api.updatePost(id, post);
-    //    console.log("response is: ", data);
-    // } catch (e) {
-    //   alert(`There has been an error: ${e}`)
-    // }
+  const editPost = async(id: string, post: IPost) => {
+    try {
+      const {data} = await api.updatePost(id, post);
+       console.log("response is: ", data);
+    } catch (e) {
+      alert(`There has been an error: ${e}`)
+    }
     return id;
   }
 
@@ -49,7 +49,15 @@ const Home: FunctionComponent<IHomeProps> = ({getOnePost}: IHomeProps) => {
 
   const likePost = async(id: string)=>{
     try {
-      const {data} = await api.likePost(id)
+      const {data} = await api.likePost(id);
+      setPosts((prevState: IPost[]) => {
+        const updatedPosts = prevState.map((post: IPost) => {
+          if(post._id === data._id) return data
+          return post
+        })
+        return updatedPosts;
+      })
+
     } catch (e) {
       alert(`There has been an error: ${e}`)
     }

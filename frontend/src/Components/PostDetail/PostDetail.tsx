@@ -2,7 +2,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 import { FunctionComponent ,useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 //import { createComment } from '../../../actions/posts.ts';
-import { Comment, IPost } from '../../../Interfaces/index.js';
+import { Comment, IPost } from '../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 
 interface PostDetailProps {

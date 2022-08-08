@@ -1,10 +1,10 @@
 import { CircularProgress, Grid } from '@mui/material';
-import Post from './Post/Post';
+import Post from '../Post/Post';
 import { IPost } from '../../Interfaces';
 
 interface PostsProps {
   posts: IPost[],
-  editPost: (id: string) => any,
+  editPost: (id: string, post: IPost) => any,
   deletePost: (id: string) => any,
   likePost: (id: string) => any,
   getOnePost: (id: string) => any,

@@ -1,13 +1,11 @@
 import { Container } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import * as api from './api/apiClient';
 import Auth from './Components/Auth/Auth';
 import Home from './Components/Home/Home';
 import Navbar from './Components/Navbar/Navbar';
-import PostDetail from './Components/Posts/PostDetail/PostDetail';
-import { AxiosResponse } from "axios";
-import { IPost } from './Interfaces';
+import PostDetail from './Components/PostDetail/PostDetail';
 import { mainContext } from './Helper/context';
 
 
