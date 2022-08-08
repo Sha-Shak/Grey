@@ -1,50 +1,43 @@
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileBase from 'react-file-base64';
-import * as api from '../../api/apiClient'
+import { IPost } from '../../Interfaces';
 
 interface IForm {
+  posts: IPost[],
   createPost: (formData: any) => any,
+  editPost: (post: any) => any,
+  editId: string
 };
 
 const initialState = {creator: '', title: '', message: '', tag: [], selectedFile: ''};
 
-const Form = ({createPost}: IForm) => {
-  const [postData, setPostData] = useState(initialState);
-  // const editId = useSelector(state=>state.edit);
-  // let onePost = useSelector(state=> editId ? state.posts.find((post)=> post._id === editId) : null);
+const Form = ({posts, createPost, editPost, editId}: IForm) => {
+  const [postData, setPostData] = useState<any>(initialState);
+  let onePost = editId ? posts.find((post)=> post._id === editId) : null;
   const storage: any = localStorage.getItem('user');
   const user = useState(JSON.parse(storage));
-  const editId = false;
-  const onePost = false;
 
-  // useEffect(()=>{
-  //   if(onePost) setPostData(onePost)
-  // },[onePost]);
+  useEffect(()=>{
+    if(onePost) setPostData(onePost);
+  },[onePost]);
 
   const handleSubmit = async(e: any) => {
     e.preventDefault();
+
     if(!editId){
       createPost(postData);
-
     } else {  
-
-      try {
-        const {data} = await api.updatePost(editId, postData);
-      } catch(e) {
-        console.log(e)
-      }
-      // onePost = null;
+      editPost(postData);
+      onePost = null;
     }
     e.target.reset();
     setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''});
-    console.log('Submit clicked');
     }
 
   const handleClear = () => {
     setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''});
-    // onePost = null;
-    console.log('clear clicked');
+    onePost = null;
   }
 
   return (

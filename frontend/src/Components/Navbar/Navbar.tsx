@@ -19,7 +19,7 @@ const Navbar = () => {
       setUser(null);
       navigate('/auth');
     } catch(e) {
-      console.log(e); 
+      alert(`There has been an error: ${e}`);
     }
   }
 

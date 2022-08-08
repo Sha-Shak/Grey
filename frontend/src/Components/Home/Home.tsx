@@ -6,14 +6,12 @@ import Posts from '../PostsList/Posts';
 import SearchInput from '../SearchBox/SearchInput';
 import * as api from '../../api/apiClient';
 
-// interface IHomeProps {
-//   getOnePost: (id: string) => any
-// }
 
 const Home: FunctionComponent = () => {
 
-  const [ posts, setPosts ] = useState<any>([]); //me toco recurrir a any
-  const [ totalPosts, setTotalPosts ] = useState<any>([]);
+  const [ posts, setPosts ] = useState<IPost[]>([]);
+  const [ totalPosts, setTotalPosts ] = useState<IPost[]>([]);
+  const [ editPostId, setEditPostId ] = useState<string>('');
 
   const getPosts = async() => {
     try {
@@ -21,7 +19,7 @@ const Home: FunctionComponent = () => {
       setPosts(data);
       setTotalPosts(data);
     } catch (e) {
-      alert(`There has been an error: ${e}`)
+      alert(`There has been an error: ${e}`);
     }
   }
 
@@ -29,14 +27,16 @@ const Home: FunctionComponent = () => {
     getPosts();
   }, []);
 
-  const editPost = async(id: string, post: IPost) => {
+  const getEditId = (id: string)=>{
+    setEditPostId(id);
+  }
+
+  const editPost = async(post: any) => {
     try {
-      const {data} = await api.updatePost(id, post);
-       console.log("response is: ", data);
+      const {data} = await api.updatePost(editPostId, post);
     } catch (e) {
-      alert(`There has been an error: ${e}`)
+      alert(`There has been an error: ${e}`);
     }
-    return id;
   }
 
   const deletePost = async(id: string) => {
@@ -45,7 +45,7 @@ const Home: FunctionComponent = () => {
       let filteredArray = posts.filter((post: IPost) => post._id !== id);
       setPosts(filteredArray);
     } catch (e) {
-      alert(`There has been an error: ${e}`)
+      alert(`There has been an error: ${e}`);
     }
   }
 
@@ -61,11 +61,10 @@ const Home: FunctionComponent = () => {
       })
 
     } catch (e) {
-      alert(`There has been an error: ${e}`)
+      alert(`There has been an error: ${e}`);
     }
   }
  
-
   const filter = (value: string) => {
     const filter = totalPosts.filter((post: IPost) => post.title.toLowerCase().includes(value));
     setPosts(filter);
@@ -77,18 +76,18 @@ const Home: FunctionComponent = () => {
       setPosts((prevState: any) => [...prevState, data]);
       setTotalPosts((prevState: any) => [...prevState, data]);
     } catch(e) {
-      console.log(e)
+      alert(`There has been an error: ${e}`);
     }
   }
 
   const getOnePost = async(id: string) => {
     try {
-      const {data}= await api.fetchOnePost(id);
-      // setCurrentPost(data);
+      await api.fetchOnePost(id);
     } catch(e) {
-      console.log(e)
+      alert(`There has been an error: ${e}`);
     }
   };
+
 
   return (
      <Grow in>
@@ -98,10 +97,10 @@ const Home: FunctionComponent = () => {
             <SearchInput posts={posts} filter={filter}/>
            </Grid>
             <Grid item xs={12} sm={7}>
-              <Posts editPost={editPost} deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost}/>
+              <Posts deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost} getEditId={getEditId}/>
             </Grid>
             <Grid item xs={12} sm={5} >
-            <Form createPost={createPost}/>
+            <Form posts={posts} createPost={createPost} editPost={editPost} editId={editPostId}/>
             </Grid>
           </Grid>
         </Container>

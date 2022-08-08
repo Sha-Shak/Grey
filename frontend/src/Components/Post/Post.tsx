@@ -10,13 +10,13 @@ import * as api from '../../api/apiClient'
 
 interface PostProps {
  post: IPost,
- editPost: (id: string, post: IPost) => any,
  deletePost: (id: string) => any,
  likePost: (id: string) => any,
- getOnePost: (id: string) => any
+ getOnePost: (id: string) => any,
+ getEditId: (id: string) => any,
 };
 
-const Post: FunctionComponent<PostProps> = ({post, editPost, deletePost, likePost, getOnePost}: PostProps) => {
+const Post: FunctionComponent<PostProps> = ({post, deletePost, likePost, getOnePost, getEditId}: PostProps) => {
   const storage: any = localStorage.getItem('user');
   const user = useState(JSON.parse(storage));
   const siteUser = user[0]?.result._id; 
@@ -25,31 +25,24 @@ const Post: FunctionComponent<PostProps> = ({post, editPost, deletePost, likePos
 
   if(siteUser === post?.creator) authorizedUser= true;
 
-  // const handleEdit = (id: string)=>{
-  //   editPost(id);
-  // }
+  const handleEdit = (id: string)=>{
+    getEditId(id);
+  }
 
   const handleDelete = (id: string)=>{
-    console.log(" deleted id: ", id)
     deletePost(id);
   }
 
   const handleLike= (id: string)=>{
-    console.log("like", id)
     likePost(id);
   }
- 
-  // const handleClick = (id: string) => {
-  //   getOnePost(id);
-  //   navigate("/post");
-  // }
 
   const handleClick = async(id: string) => {
     try {
       const {data}= await api.fetchOnePost(id);
       navigate('/post', { state: data});
     } catch(e) {
-      console.log(e)
+      alert(`There has been an error: ${e}`);
     }
   }
 

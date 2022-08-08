@@ -27,7 +27,7 @@ const Auth = () => {
         localStorage.setItem('user', JSON.stringify({...data}));
         navigate('/');
       } catch(e) {
-        console.log(e);
+        alert(`There has been an error: ${e}`);
       }
      
     } else {
@@ -37,7 +37,7 @@ const Auth = () => {
         localStorage.setItem('user', JSON.stringify({...data}));
         navigate('/');
       } catch(e) {
-        console.log(e); 
+        alert(`There has been an error: ${e}`);
       }
     } 
   }
