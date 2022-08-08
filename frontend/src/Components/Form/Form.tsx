@@ -3,14 +3,19 @@ import React, { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, formEditPost } from '../../actions/posts';
+import { IPost } from '../../Interfaces';
 
-//
+
+
+
+
+
 
 const Form = () => {
-  const [postData, setPostData] =useState({creator: '', title: '', message: '', tag: [], selectedFile: ''})
+  const [postData, setPostData] =useState<IPost>({creator: '', title: '', message: '', tag: [], selectedFile: ''})
   //const post = useSelector((state) => (id ? state.posts.find((message) => message._id === currentId) : null));
-  const editId = useSelector(state=>state.edit);
-  let onePost = useSelector(state=> editId ? state.posts.find((post)=> post._id === editId) : null);
+  const editId = useSelector((state)=>state.edit);
+  let onePost = useSelector((state)=> editId ? state.posts.find((post: any)=> post._id === editId) : null);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('user'))
   

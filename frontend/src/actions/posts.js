@@ -76,7 +76,7 @@ export const likePost=(id)=>async (dispatch)=>{
     console.log(e)
   }
  
-}
+} 
 export const searchValue=(data)=> (dispatch)=>{
   try{
   console.log("search action", data);

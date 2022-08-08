@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const url = 'http://localhost:8080';
-axios.interceptors.request.use((req)=>{
+axios.interceptors.request.use((req: Request)=>{
   const token = localStorage.getItem('user')
   if(token) req.headers.Authorization = `Bearer ${JSON.parse(token).token}`
   return req;
