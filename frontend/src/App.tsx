@@ -12,14 +12,7 @@ import { mainContext } from './Helper/context';
 
 function App () { 
   const [ userContext, setUserContext ] = useState({});
-  const [ currentPost, setCurrentPost ] = useState<any>();
   
-  /*
-    const getuser = async () => {
-    const user = await getUserById()
-    setUserContext(user)    
-  }
-  */
   const getUser = () => {
     const storage: any = localStorage.getItem('user');
     if (storage) setUserContext(JSON.parse(storage));
@@ -28,17 +21,6 @@ function App () {
   useEffect(() => {
     getUser();
   }, []);
-
-
-  const getOnePost = async(id: string) => {
-    try {
-      const {data}= await api.fetchOnePost(id);
-      setCurrentPost(data);
-    } catch(e) {
-      console.log(e)
-    }
-  };
-
   
 
   return (
@@ -47,9 +29,9 @@ function App () {
         <Container maxWidth="lg">
           <Navbar/>
           <Routes>
-            <Route path="/" element = {<Home getOnePost={getOnePost}/>}/>
+            <Route path="/" element = {<Home/>}/>
             <Route path="/auth"  element = {<Auth/>} />
-            <Route path="/post"  element = {<PostDetail post={currentPost}/>} />  
+            <Route path="/post"  element = {<PostDetail/>} />  
           </Routes>
         </Container>
       </BrowserRouter>

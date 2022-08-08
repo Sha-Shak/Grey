@@ -6,11 +6,11 @@ import Posts from '../PostsList/Posts';
 import SearchInput from '../SearchBox/SearchInput';
 import * as api from '../../api/apiClient';
 
-interface IHomeProps {
-  getOnePost: (id: string) => any
-}
+// interface IHomeProps {
+//   getOnePost: (id: string) => any
+// }
 
-const Home: FunctionComponent<IHomeProps> = ({getOnePost}: IHomeProps) => {
+const Home: FunctionComponent = () => {
 
   const [ posts, setPosts ] = useState<any>([]); //me toco recurrir a any
   const [ totalPosts, setTotalPosts ] = useState<any>([]);
@@ -79,7 +79,16 @@ const Home: FunctionComponent<IHomeProps> = ({getOnePost}: IHomeProps) => {
     } catch(e) {
       console.log(e)
     }
-  } 
+  }
+
+  const getOnePost = async(id: string) => {
+    try {
+      const {data}= await api.fetchOnePost(id);
+      // setCurrentPost(data);
+    } catch(e) {
+      console.log(e)
+    }
+  };
 
   return (
      <Grow in>

@@ -45,12 +45,9 @@ const Post: FunctionComponent<PostProps> = ({post, editPost, deletePost, likePos
   // }
 
   const handleClick = async(id: string) => {
-    console.log('geeeeee')
     try {
       const {data}= await api.fetchOnePost(id);
-      console.log(data, 'la data')
       navigate('/post', { state: data});
-      // setCurrentPost(data);
     } catch(e) {
       console.log(e)
     }

@@ -5,34 +5,28 @@ import { Comment, IPost } from '../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 import * as api from '../../api/apiClient';
 
-interface PostDetailProps {
-  post: IPost
-}
 
-const PostDetail: FunctionComponent<PostDetailProps> = ({post}: PostDetailProps) => {
+const PostDetail: FunctionComponent = () => {
   const storage: any = localStorage.getItem('user');
   const [ user, setUser ] = useState(JSON.parse(storage));
   const location = useLocation();
   const data = location.state as IPost;
+  const [ postData, setPostData ] = useState(data);
   const navigate = useNavigate();
 
   const handleSubmit = (e: any)=>{
     e.preventDefault();
     const value = e.target.comment.value;
-    console.log("value is: ", value)
     createComment(value, data._id);
   }
 
   const createComment = async(value: string, postId: string) => {
-    console.log('in')
     try{
       const {data} = await api.createComment(value, postId);
-      console.log("commented post", data)
-      
+      setPostData(data);
     }catch(e){
-      console.log(e)
+      alert(`There has been an error: ${e}`)
     }
-   
   }
   
  
@@ -56,11 +50,11 @@ const PostDetail: FunctionComponent<PostDetailProps> = ({post}: PostDetailProps)
                 <Typography item variant = "h5">Comment({data.comments.length})</Typography>
               </Grid>
               <Grid container>
-              { !(data.comments.length>0) 
+              { !(postData.comments.length>0) 
                 ? (<Typography item variant="h6" sx={{color:'grey'}}>No comments yet</Typography>) 
                 : (
                    <Grid container> {
-                      data.comments.map((comment: Comment)=> (  
+                      postData.comments.map((comment: Comment)=> (  
                         
                      <Grid item key={comment._id} fullwidth sx={{width: '100%', padding: '15px', borderBottom: 'thin solid lightgray'}}>{`${comment.comment}, user: ${comment.userId}`}</Grid> 
                       
