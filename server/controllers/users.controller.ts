@@ -27,11 +27,11 @@ export const logInUser = async (req: Request<QueryParams>,res: Response)=>{
     res.status(500).json({message: "something went wrong"})
   }
 }
+
 export const createUser = async (req: Request<QueryParams>,res: Response)=>{
   try{
     const {firstName, lastName, email, password, confirmPassword}:{firstName:string, lastName:string, 
       email: string, password: string, confirmPassword: string}  = req.body;
-    try{
     const existingUser = await Users.findOne({email});
     if(existingUser) return res.status(400).send("User already exists");
     if (password !== confirmPassword) return res.status(400).json({message: "Passwords don't match!"})
@@ -40,11 +40,8 @@ export const createUser = async (req: Request<QueryParams>,res: Response)=>{
     const token: string = jwt.sign({email: result.email, id: result._id, password: result.password }, "aa@#A1", {expiresIn: "1hr"});
     res.status(201).json({result, token});
     }catch(e){
+      console.log(e)
        res.status(500).json({message: "something went wrong"})
     }
-  } catch(e){
-    res.status(500);
-    console.log(e)
-  }
 }
 

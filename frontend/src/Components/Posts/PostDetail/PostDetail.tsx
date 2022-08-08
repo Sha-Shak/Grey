@@ -6,6 +6,7 @@ import { createComment } from '../../../actions/posts.js';
 import { Comment, RootState } from '../../../Interfaces/index.js';
 import SinglePost from './SinglePost';
 
+
 const PostDetail: FunctionComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
