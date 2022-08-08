@@ -41,7 +41,9 @@ const Home: FunctionComponent<IHomeProps> = ({getOnePost}: IHomeProps) => {
 
   const deletePost = async(id: string) => {
     try {
-      const res = await api.deleteOnePost(id);
+      await api.deleteOnePost(id);
+      let filteredArray = posts.filter((post: IPost) => post._id !== id);
+      setPosts(filteredArray);
     } catch (e) {
       alert(`There has been an error: ${e}`)
     }

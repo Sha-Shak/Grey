@@ -1,9 +1,9 @@
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { FunctionComponent ,useEffect, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-//import { createComment } from '../../../actions/posts.ts';
 import { Comment, IPost } from '../../Interfaces/index.js';
 import SinglePost from './SinglePost';
+import * as api from '../../api/apiClient';
 
 interface PostDetailProps {
   post: IPost
@@ -15,15 +15,26 @@ const PostDetail: FunctionComponent<PostDetailProps> = ({post}: PostDetailProps)
   const location = useLocation();
   const data = location.state as IPost;
   const navigate = useNavigate();
-  console.log(user, 'el user')
 
-
-  const handleSubmit= (e: any)=>{
-    e.preventDefault()
-    const value = e.target.comment.value
+  const handleSubmit = (e: any)=>{
+    e.preventDefault();
+    const value = e.target.comment.value;
     console.log("value is: ", value)
-
+    createComment(value, data._id);
   }
+
+  const createComment = async(value: string, postId: string) => {
+    console.log('in')
+    try{
+      const {data} = await api.createComment(value, postId);
+      console.log("commented post", data)
+      
+    }catch(e){
+      console.log(e)
+    }
+   
+  }
+  
  
   return (
   
