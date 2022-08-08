@@ -2,14 +2,14 @@ import jwt from "jsonwebtoken";
 
 const secret: string = 'aa@#A1';
 
-// declare global {
-//   namespace Express {
-//    export interface Request {
-//       userId: any;
-//       anonId: any;
-//     }
-//   }
-// }
+declare global {
+  namespace Express {
+   export interface Request {
+      userId: any;
+      anonId: any;
+    }
+  }
+}
 
 const createAuth = async (req, res, next) => {
   try {
