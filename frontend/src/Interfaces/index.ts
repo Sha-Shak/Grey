@@ -19,7 +19,15 @@ export interface Comment {
   _id: string
 }
 
-export interface RootState {
-  posts: any[],
-  onePost: IPost
+export interface ILoginUser {
+  email: string,
+  password: string
+}
+
+export interface INewUser {
+  firstName: string, 
+  email: string, 
+  lastName: string, 
+  password: string, 
+  confirmPassword: string
 }

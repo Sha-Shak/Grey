@@ -1,44 +1,45 @@
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileBase from 'react-file-base64';
-import { useDispatch, useSelector } from 'react-redux';
-import { createPost, formEditPost } from '../../actions/posts';
 import { IPost } from '../../Interfaces';
 
+interface IForm {
+  posts: IPost[],
+  createPost: (formData: any) => any,
+  editPost: (post: any) => any,
+  editId: string
+};
 
+const initialState = {creator: '', title: '', message: '', tag: [], selectedFile: ''};
 
+const Form = ({posts, createPost, editPost, editId}: IForm) => {
+  const [postData, setPostData] = useState<any>(initialState);
+  let onePost = editId ? posts.find((post)=> post._id === editId) : null;
+  const storage: any = localStorage.getItem('user');
+  const user = useState(JSON.parse(storage));
 
-
-
-
-const Form = () => {
-  const [postData, setPostData] =useState<IPost>({creator: '', title: '', message: '', tag: [], selectedFile: ''})
-  //const post = useSelector((state) => (id ? state.posts.find((message) => message._id === currentId) : null));
-  const editId = useSelector((state)=>state.edit);
-  let onePost = useSelector((state)=> editId ? state.posts.find((post: any)=> post._id === editId) : null);
-  const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem('user'))
-  
   useEffect(()=>{
-    if(onePost) setPostData(onePost)
-  },[onePost])
-  const handleSubmit= (e)=>{
+    if(onePost) setPostData(onePost);
+  },[onePost]);
+
+  const handleSubmit = async(e: any) => {
     e.preventDefault();
+
     if(!editId){
-      dispatch(createPost(postData)) 
+      createPost(postData);
     } else {  
-      dispatch(formEditPost(editId, postData))
+      editPost(postData);
       onePost = null;
     }
     e.target.reset();
-    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''})
-    console.log('Submit clicked') 
+    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''});
     }
-  const handleClear = ()=>{
-    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''})
+
+  const handleClear = () => {
+    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''});
     onePost = null;
-    console.log('clear clicked')
   }
+
   return (
     <Paper sx={{padding: '10px', backgroundColor: '#f7f7f8'}}>
       <form onSubmit={handleSubmit}>
@@ -59,4 +60,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default Form;
