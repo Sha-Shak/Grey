@@ -1,36 +1,39 @@
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { FunctionComponent ,useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { createComment } from '../../../actions/posts.js';
-import { Comment, RootState } from '../../../Interfaces/index.js';
+import { FunctionComponent, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router';
+import { Comment, IPost } from '../../Interfaces/index.js';
 import SinglePost from './SinglePost';
+import * as api from '../../api/apiClient';
 
 
 const PostDetail: FunctionComponent = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const storage: any = localStorage.getItem('user');
-  const [user, setUser] = useState(JSON.parse(storage));
-  const post = useSelector((state: RootState)=> state.onePost);
- 
-  useEffect(()=>{  
-    if(!post) navigate("/") //todo doesn't work 
-  },[])
+  const [ user, setUser ] = useState(JSON.parse(storage));
+  const location = useLocation();
+  const data = location.state as IPost;
+  const [ postData, setPostData ] = useState(data);
+  const navigate = useNavigate();
 
-  const numOfComments = post.comments.length;
-
-  const handleSubmit= (e)=>{
-     e.preventDefault()
-    const value = e.target.comment.value
-    console.log("value is: ", value)
-    dispatch(createComment(value,  post._id))
+  const handleSubmit = (e: any)=>{
+    e.preventDefault();
+    const value = e.target.comment.value;
+    createComment(value, data._id);
   }
+
+  const createComment = async(value: string, postId: string) => {
+    try{
+      const {data} = await api.createComment(value, postId);
+      setPostData(data);
+    }catch(e){
+      alert(`There has been an error: ${e}`)
+    }
+  }
+  
  
   return (
   
       <div>
-      <SinglePost post={post}/>
+      <SinglePost post={data}/>
       
       <div>
         {
@@ -44,14 +47,14 @@ const PostDetail: FunctionComponent = () => {
                 <Button variant="contained" color="primary" type="submit">Add Comment</Button>
               </form>
               <Grid container>
-                <Typography item variant = "h5">Comment({numOfComments})</Typography>
+                <Typography item variant = "h5">Comment({data.comments.length})</Typography>
               </Grid>
               <Grid container>
-              { !(numOfComments>0) 
+              { !(postData.comments.length>0) 
                 ? (<Typography item variant="h6" sx={{color:'grey'}}>No comments yet</Typography>) 
                 : (
                    <Grid container> {
-                      post.comments.map((comment: Comment)=> (  
+                      postData.comments.map((comment: Comment)=> (  
                         
                      <Grid item key={comment._id} fullwidth sx={{width: '100%', padding: '15px', borderBottom: 'thin solid lightgray'}}>{`${comment.comment}, user: ${comment.userId}`}</Grid> 
                       
