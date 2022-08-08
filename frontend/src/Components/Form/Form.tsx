@@ -60,4 +60,4 @@ const Form = ({posts, createPost, editPost, editId}: IForm) => {
   )
 }
 
-export default Form
+export default Form;

@@ -108,4 +108,4 @@ const Home: FunctionComponent = () => {
   )
 }
 
-export default Home
+export default Home;
