@@ -13,11 +13,8 @@ import { mainContext } from './Helper/context';
 
 
 function App () { 
-  const [ data, setData ] = useState([]);
-  const [ posts, setPosts ] = useState<any>([]); //me toco recurrir a any
+  const [ userContext, setUserContext ] = useState({});
   const [ currentPost, setCurrentPost ] = useState<any>();
-  const [ totalPosts, setTotalPosts ] = useState<any>([]);
-  const [ userContext, setUserContext ] = useState({})
   
   /*
     const getuser = async () => {
@@ -25,69 +22,34 @@ function App () {
     setUserContext(user)    
   }
   */
+  const getUser = () => {
+    const storage: any = localStorage.getItem('user');
+    if (storage) setUserContext(JSON.parse(storage));
+  }
 
   useEffect(() => {
-    const getPosts = async() => {
-      try {
-        const {data} = await api.fetchPosts();
-        setPosts(data);
-        setTotalPosts(data);
-      } catch (e) {
-        alert(`There has been an error: ${e}`)
-      }
-    }
-
-    getPosts();
+    getUser();
   }, []);
 
-  const editPost = async(id: string) => {
-    // try {
-    //   const {data} = await api.updatePost(id, post);
-    //    console.log("response is: ", data);
-    // } catch (e) {
-    //   alert(`There has been an error: ${e}`)
-    // }
-    return id;
-  }
 
-  const deletePost = async(id: string) => {
-    try {
-      const res = await api.deleteOnePost(id);
-    } catch (e) {
-      alert(`There has been an error: ${e}`)
-    }
-  }
-
-  const likePost = async(id: string)=>{
-    try {
-      const {data} = await api.likePost(id)
-    } catch (e) {
-      alert(`There has been an error: ${e}`)
-    }
-  }
- 
   const getOnePost = async(id: string) => {
-    console.log('geeeeee')
     try {
       const {data}= await api.fetchOnePost(id);
       setCurrentPost(data);
     } catch(e) {
       console.log(e)
     }
-  }
+  };
 
-  const filter = (value: string) => {
-    const filter = totalPosts.filter((post: IPost) => post.title.toLowerCase().includes(value));
-    setPosts(filter);
-  }
+  
 
   return (
-    <mainContext.Provider  value={{userContext, setUserContext}}>
+    <mainContext.Provider value={{userContext, setUserContext}}>
       <BrowserRouter>
         <Container maxWidth="lg">
           <Navbar/>
           <Routes>
-            <Route path="/" element = {<Home editPost={editPost} deletePost={deletePost} likePost={likePost} posts={posts} getOnePost={getOnePost} filter={filter}/>} />
+            <Route path="/" element = {<Home getOnePost={getOnePost}/>}/>
             <Route path="/auth"  element = {<Auth/>} />
             <Route path="/post"  element = {<PostDetail post={currentPost}/>} />  
           </Routes>

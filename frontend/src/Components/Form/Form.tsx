@@ -1,38 +1,50 @@
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FileBase from 'react-file-base64';
+import * as api from '../../api/apiClient'
+
+interface IForm {
+  createPost: (formData: any) => any,
+};
 
 const initialState = {creator: '', title: '', message: '', tag: [], selectedFile: ''};
 
-const Form = () => {
+const Form = ({createPost}: IForm) => {
   const [postData, setPostData] = useState(initialState);
-  //const post = useSelector((state) => (id ? state.posts.find((message) => message._id === currentId) : null));
-  const editId = useSelector(state=>state.edit);
-  let onePost = useSelector(state=> editId ? state.posts.find((post)=> post._id === editId) : null);
-  const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem('user'))
-  
-  useEffect(()=>{
-    if(onePost) setPostData(onePost)
-  },[onePost])
-  
-  const handleSubmit= (e)=>{
+  // const editId = useSelector(state=>state.edit);
+  // let onePost = useSelector(state=> editId ? state.posts.find((post)=> post._id === editId) : null);
+  const storage: any = localStorage.getItem('user');
+  const user = useState(JSON.parse(storage));
+  const editId = false;
+  const onePost = false;
+
+  // useEffect(()=>{
+  //   if(onePost) setPostData(onePost)
+  // },[onePost]);
+
+  const handleSubmit = async(e: any) => {
     e.preventDefault();
     if(!editId){
-      dispatch(createPost(postData)) 
+      createPost(postData);
+
     } else {  
-      dispatch(formEditPost(editId, postData))
-      onePost = null;
+
+      try {
+        const {data} = await api.updatePost(editId, postData);
+      } catch(e) {
+        console.log(e)
+      }
+      // onePost = null;
     }
     e.target.reset();
-    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''})
-    console.log('Submit clicked') 
+    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''});
+    console.log('Submit clicked');
     }
 
-  const handleClear = ()=>{
-    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''})
-    onePost = null;
-    console.log('clear clicked')
+  const handleClear = () => {
+    setPostData({creator: '', title: '', message: '', tag: [], selectedFile: ''});
+    // onePost = null;
+    console.log('clear clicked');
   }
 
   return (

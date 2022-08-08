@@ -4,7 +4,6 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React, { FunctionComponent , useState } from 'react';
-import { deletePost, editPost, getOnePost, likePost } from '../../../actions/posts';
 import { IPost } from '../../../Interfaces';
 import { useNavigate } from 'react-router';
 import * as api from '../../../api/apiClient'
@@ -21,11 +20,11 @@ const Post: FunctionComponent<PostProps> = ({post, editPost, deletePost, likePos
   const storage: any = localStorage.getItem('user');
   const user = useState(JSON.parse(storage));
   const siteUser = user[0]?.result._id; 
-  let authorizedUser = false
+  let authorizedUser = false;
   const navigate = useNavigate();
+  console.log(user, 'the usah')
   
-  if(siteUser === post?.creator) authorizedUser= true; 
-
+  if(siteUser === post?.creator) authorizedUser= true;
   // const handleEdit = (id: string)=>{
   //   editPost(id);
   // }
