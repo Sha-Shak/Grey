@@ -1,10 +1,8 @@
-import express from "express";
-import { createUser, logInUser } from '../controllers/users.controller.js';
-const router = express.Router();
+const { createUser, logInUser } = require('../controllers/users.controller.ts');
+const router = require("express").Router();
 
 //prefix added (localhost:8080/posts)
 router.post('/signin', logInUser)
 router.post('/signup', createUser)
 
-
-export default router; 
+module.exports = router; 

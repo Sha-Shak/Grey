@@ -20,6 +20,7 @@ export const getPosts = async (req: Request, res: Response)=>{
 export const createPost = async (req,res)=>{
   try{
     const post = req.body;
+    console.log(post, 'post', req.anonId)
     if(req.anonId){
       const postMessage = await Posts.create({...post, creator: req?.anonId})
       res.status(201);
