@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
-import jwt from "jsonwebtoken";
-dotenv.config()
-import {Request, Response } from 'express'
+import jwt from 'jsonwebtoken';
+dotenv.config();
+import {Request, Response } from 'express';
 
 declare global {
   namespace Express {
