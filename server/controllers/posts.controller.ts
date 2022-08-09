@@ -1,8 +1,6 @@
-const Posts =  require("../models/postMessage.model.ts");
+const Posts =  require('../models/postMessage.model.ts');
 const Users =  require('../models/user.model.ts');
 import { Request, Response } from 'express';
-// const Ipost = require('../models/postMessage.model')
-// const IComment = require('../models/postMessage.model')
 
 
 type QueryParams = {
@@ -47,28 +45,10 @@ export const getPosts = async (req: Request, res: Response)=>{
     const message: IPost = await Posts.find();
     return res.status(200).json(message);
   }catch(e){
-    res.status(500);
+    res.status(500).send('error in server');
   }
 }
 
-
-// export const createPost = async (req,res)=>{
-//   try{
-//     const post = req.body;
-//     if(req.anonId){
-//       const postMessage = await Posts.create({...post, creator: req?.anonId})
-//       res.status(201);
-//       res.send(postMessage);
-//     } else {
-//       const postMessage = await Posts.create(post)
-//       res.status(201);
-//       res.send(postMessage);
-//     }
-//   } catch(e){
-//     res.status(500);
-//     console.log(e)
-//   }
-// }
 
 export const createPost = async (req: Request, res: Response)=>{
   try{
@@ -83,8 +63,7 @@ export const createPost = async (req: Request, res: Response)=>{
       res.send(postMessage);
     }
   } catch(e){
-    res.status(500);
-    console.log(e)
+    res.status(500).send('error in server');
   }
 }
 
@@ -102,7 +81,7 @@ export const createComment = async (req: Request,res: Response)=>{
       res.status(400).send('Post and User not found!')
     }
   } catch(e){
-    res.status(500);
+    res.status(500).send('error in server');
   }
 }
 
@@ -123,48 +102,23 @@ export const updatePost = async (req: Request,res: Response)=>{
     res.status(200);
     res.send(post);
     } else {
-      res.status(400).send("post not found")
+      res.status(400).send('post not found')
     }
     
   } catch(e){
-    res.status(500);
-    console.log(e)
+    res.status(500).send('error in server');
   }
 }
 
-// export const updatePost = async (req,res)=>{
-//   try{
-//     const {title, message, creator, tag, selectedFile, likeCount} = req.body;
-//     const id = req.params.id;
-//     const post = await Posts.findById(id)
-//     if(post){
-//     post.title = title;
-//     post.message = message;
-//     post.tag = tag;
-//     post.selectedFile = selectedFile;
-    
-//     post.save();
-//     res.status(200);
-//     res.send(post);
-//     } else {
-//       res.status(400).send("post not found")
-//     }
-    
-//   } catch(e){
-//     res.status(500);
-//     console.log(e)
-//   }
-// }
 
 export const deletePost = async (req: Request<QueryParams> ,res: Response)=>{
   try{
     const id:string = req.params.id;
     await Posts.findByIdAndDelete(id)   
     res.status(201);
-    res.send("post deleted");  
+    res.send('post deleted');  
   } catch(e){
-    res.status(500);
-    console.log(e)
+    res.status(500).send('error in server');
   }
 }
 
@@ -176,40 +130,16 @@ export const getOnePost = async (req: Request, res: Response)=>{
     res.status(201);
     res.send(post);  
   } catch(e){
-    res.status(500);
-    console.log(e)
+    res.status(500).send('error in server');
   }
 }
 
-
-// export const likePost = async (req, res) => {
-//     const { id } = req.params;
-//     if(!req.userId) return res.json({message: "Unauthenticated"});
-//     try{
-//       const post = await Posts.findById(id);
-//       if (post) { 
-//         const index = post.likes.findIndex((id)=>  id === String(req.userId));
-//         if(index === -1){
-//             post.likes.push(req.userId)
-//         } else {
-//           post.likes = post.likes.filter(id=> id !== String(req.userId))
-//         }
-//         const updatedPost = await Posts.findByIdAndUpdate(id, post, { new: true });
-//         res.status(201).send(updatedPost);
-//       } else {
-//         res.status(500).send('post not found');
-//       }
-//     }catch(e){
-//       res.status(500)
-//       console.log(e)
-//     }
-// }
 
 export const likePost = async (req: Request<QueryParams>, res: Response) => {
 
   const { id }: {id?:string} = req.params;
   
-  if(!req.userId) return res.json({message: "Unauthenticated"});
+  if(!req.userId) return res.json({message: 'Unauthenticated'});
   try{
     const post = await Posts.findById(id);
     if (post) { 
@@ -225,7 +155,6 @@ export const likePost = async (req: Request<QueryParams>, res: Response) => {
       res.status(500).send('post not found');
     }
   }catch(e){
-    res.status(500)
-    console.log(e)
+    res.status(500).send('error in server');
   }
 }

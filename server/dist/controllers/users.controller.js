@@ -8,18 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = exports.logInUser = void 0;
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const user_model_1 = __importDefault(require("../models/user.model"));
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const Users = require('../models/user.model.ts');
 const logInUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
-        const result = yield user_model_1.default.findOne({ email });
+        const result = yield Users.findOne({ email });
         if (!result)
             return res.status(404).send("User doesn't exist");
         const isPassword = yield bcrypt.compare(password, result.password);
@@ -36,13 +33,13 @@ exports.logInUser = logInUser;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { firstName, lastName, email, password, confirmPassword } = req.body;
-        const existingUser = yield user_model_1.default.findOne({ email });
+        const existingUser = yield Users.findOne({ email });
         if (existingUser)
             return res.status(400).send("User already exists");
         if (password !== confirmPassword)
             return res.status(400).json({ message: "Passwords don't match!" });
         const hashedPassword = yield bcrypt.hash(password, 10);
-        const result = yield user_model_1.default.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+        const result = yield Users.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
         const token = jwt.sign({ email: result.email, id: result._id, password: result.password }, "aa@#A1", { expiresIn: "1hr" });
         res.status(201).json({ result, token });
     }

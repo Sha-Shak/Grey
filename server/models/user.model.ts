@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 
 interface IUser{
   name: string, 
@@ -7,7 +7,6 @@ interface IUser{
   password: string, 
   id: string
 }
-
 
 const UserSchema = new Schema<IUser>({
   name: {
