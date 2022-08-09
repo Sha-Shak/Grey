@@ -19,10 +19,26 @@ const getPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (e) {
         res.status(500);
-        console.log(e);
     }
 });
 exports.getPosts = getPosts;
+// export const createPost = async (req,res)=>{
+//   try{
+//     const post = req.body;
+//     if(req.anonId){
+//       const postMessage = await Posts.create({...post, creator: req?.anonId})
+//       res.status(201);
+//       res.send(postMessage);
+//     } else {
+//       const postMessage = await Posts.create(post)
+//       res.status(201);
+//       res.send(postMessage);
+//     }
+//   } catch(e){
+//     res.status(500);
+//     console.log(e)
+//   }
+// }
 const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const post = req.body;
@@ -43,31 +59,12 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createPost = createPost;
-// export const createPost = async (req: Request, res: Response)=>{
-//   try{
-//     const post = req.body;
-//     if(req.anonId){
-//       const postMessage = await Posts.create({...post, creator: req?.anonId})
-//       res.status(201);
-//       res.send(postMessage);
-//     } else {
-//       const postMessage = await Posts.create(post)
-//       res.status(201);
-//       res.send(postMessage);
-//     }
-//   } catch(e){
-//     res.status(500);
-//     console.log(e)
-//   }
-// }
 const createComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { comment, postId } = req.body;
-        console.log("controller:", comment, req.userId, postId);
         const post = yield Posts.findById(postId);
         const user = yield Users.findById(req.userId);
         if (post && user) {
-            console.log("comments controller", comment);
             post.comments.push({ id: postId, comment: comment, userId: user.name });
             const updatedPost = yield Posts.findByIdAndUpdate(postId, post, { new: true });
             res.status(201).send(updatedPost);
@@ -78,7 +75,6 @@ const createComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     catch (e) {
         res.status(500);
-        console.log(e);
     }
 });
 exports.createComment = createComment;
@@ -153,6 +149,28 @@ const getOnePost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getOnePost = getOnePost;
+// export const likePost = async (req, res) => {
+//     const { id } = req.params;
+//     if(!req.userId) return res.json({message: "Unauthenticated"});
+//     try{
+//       const post = await Posts.findById(id);
+//       if (post) { 
+//         const index = post.likes.findIndex((id)=>  id === String(req.userId));
+//         if(index === -1){
+//             post.likes.push(req.userId)
+//         } else {
+//           post.likes = post.likes.filter(id=> id !== String(req.userId))
+//         }
+//         const updatedPost = await Posts.findByIdAndUpdate(id, post, { new: true });
+//         res.status(201).send(updatedPost);
+//       } else {
+//         res.status(500).send('post not found');
+//       }
+//     }catch(e){
+//       res.status(500)
+//       console.log(e)
+//     }
+// }
 const likePost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     if (!req.userId)

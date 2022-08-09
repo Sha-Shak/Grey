@@ -9,7 +9,6 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
-//adding a prefix
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes)
 const PORT='8080'; 
