@@ -34,8 +34,4 @@ describe('Renders content', () => {
     expect(messageInput).toHaveAttribute('name', 'message');
     expect(tags).toHaveAttribute('name', 'tag');
   })
-
-  //Tiene que contener SearchInput, Posts y Form
- //screen.debug();
-  //screen.getByRole('');
 })
