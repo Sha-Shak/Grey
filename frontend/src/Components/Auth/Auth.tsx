@@ -8,8 +8,13 @@ import { styles } from './styles';
 
 const initialState= { firstName: '', email:'', lastName: '', password: '', confirmPassword: ''};
 
-const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+interface AuthProps {
+  isSignUp: boolean,
+  handleSignUp: () => any
+}
+
+const Auth = ({isSignUp, handleSignUp}: AuthProps) => {
+  
   const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -21,7 +26,7 @@ const Auth = () => {
 
   const handleSubmit = async(e: any) => {
     e.preventDefault();
-    if(isSignUp){
+    if (isSignUp) {
       try {
         const {data} = await api.createUser(formData);
         localStorage.setItem('user', JSON.stringify({...data}));
@@ -44,7 +49,7 @@ const Auth = () => {
 
 
   const switchMode = () => {
-    setIsSignUp(prevIsSignUp=> !prevIsSignUp);
+    handleSignUp();
     setShowPassword(false);
   }
 
