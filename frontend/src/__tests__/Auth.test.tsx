@@ -13,7 +13,6 @@ import Auth from '../Components/Auth/Auth';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { BrowserHistory, createBrowserHistory } from 'history';
-import Input from '../Components/Auth/Input';
 import { testUser } from '../Mocks';
 
 describe('tests for the login screen', () => {
@@ -22,7 +21,6 @@ describe('tests for the login screen', () => {
   let passwordInput: HTMLElement | null;
   let signInButton: HTMLElement;
   let createAccountButton: HTMLElement;
-  let component: RenderResult;
   let history: BrowserHistory;
 
   beforeEach(() => {
@@ -34,10 +32,9 @@ describe('tests for the login screen', () => {
     createAccountButton = screen.getByRole('button', {name: `Don't have an account? Sign Up`});
   });
 
-  // afterEach(() => {
-  //   localStorage.clear();
-  //   component.unmount();
-  // });
+  afterEach(() => {
+    localStorage.clear();
+  });
 
   test('Form fields should have a correct type attribute', () => {
     expect(emailInput).toHaveAttribute('type', 'email');
@@ -47,25 +44,31 @@ describe('tests for the login screen', () => {
   });
 
 
-  test('Login in the website works', async() => {
+  test('Login in the website fails when user email doesnt exist in db', async() => {
+    //Wrong email
+    fireEvent.change(emailInput, {target: {value: 'wrongemail@gmail.com'}});
+    fireEvent.change(passwordInput, {target: {value: testUser.result.password}});
+    userEvent.click(signInButton);
+    await waitFor(() => expect(localStorage.getItem('user')).toBe(null));
+  })
+
+  test('Login in the website fails when user password is wrong', async() => {
+    //Wrong password
+    fireEvent.change(emailInput, {target: {value: testUser.email}});
+    fireEvent.change(passwordInput, {target: {value: 'wrongpassword'}});
+    userEvent.click(signInButton);
+    await waitFor(() => expect(localStorage.getItem('user')).toBe(null));
+  })
+
+  test('Login in the website works when user exists in db', async() => {
+    fireEvent.change(emailInput, {target: {value: testUser.email}});
+    fireEvent.change(passwordInput, {target: {value: testUser.result.password}});
+    userEvent.click(signInButton);
+    await waitFor(() => expect(localStorage.getItem('user')).toBe(JSON.stringify({...testUser})));
+  })
+
     // const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
     // userEvent.click(signInButton);
     // expect(alert).toHaveBeenCalledTimes(1);
     //await waitFor(() => expect(screen.getByText('Invalid username or password')).toBeInTheDocument());
-    fireEvent.change(emailInput, {target: {value: testUser.email}});
-    fireEvent.change(passwordInput, {target: {value: testUser.result.password}});
-    userEvent.click(signInButton);
-    // await waitFor(() => expect(localStorage.getItem('user')).toBe(testUser));
-  })
-
-  test('register button should redirect to register page', async () => {
-    // userEvent.click(createAccountButton);
-    // await waitFor(() => expect(screen.getByRole('combobox', {name: 'Search here...'})));
-    // expect(history.location.pathname).toBe(routes.HOME);
-    // expect(createAccountButton).toHaveAttribute('href', routes.REGISTER);
-    // userEvent.click(linkButton);
-    // expect(history.location.pathname).toBe(routes.REGISTER);
-  });
-
-
 })
