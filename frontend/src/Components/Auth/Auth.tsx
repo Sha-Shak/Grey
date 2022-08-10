@@ -37,7 +37,7 @@ const Auth = () => {
         localStorage.setItem('user', JSON.stringify({...data}));
         navigate('/');
       } catch(e) {
-        alert(`There has been an error: ${e}`);
+        alert(`Invalid username or password`);
       }
     } 
   }
@@ -68,7 +68,7 @@ const Auth = () => {
                ) : null
             }
             <CustomInput type="email" name="email" label="Email Address" handleChange={handleChange}/>
-            <CustomInput type={showPassword ? "text" : "password"} name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} />
+            <CustomInput data-testid="password" type={showPassword ? "text" : "password"} name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} />
             {
 
               isSignUp ?<CustomInput type={showPassword ? "text" : "password"} name="confirmPassword" label="Confirm Password" handleChange={handleChange} handleShowPassword={handleShowPassword} /> : null
