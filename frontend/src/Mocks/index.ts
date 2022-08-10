@@ -18,6 +18,18 @@ export const testUser = {
   token: 'jwtToken',
 };
 
+export const testUser2 = { 
+  result: {
+    createdAt: 'today',
+    email: 'user2@gmail.com',
+    name: 'Jane',
+    password: 'password',
+    updatedAt: 'today',
+    __v: 0,
+    _id: '0dsf15000dgerf'
+  },
+  token: 'eyJhbGciOiJIUzI1NiIsInR5c'
+}
 
 export const routes = [
   rest.post<any>(
@@ -56,4 +68,36 @@ export const routes = [
       
     }
   ),
+  
+  rest.post<any>(
+    url + '/user/signup',
+    (req, res, ctx) => {
+      const { firstName, lastName, email, password, confirmPassword } = req.body;
+      if (email === testUser.email) {
+        return res(
+          ctx.status(404),
+          ctx.json({
+            res: `User already exists`,
+            error: true,
+          })
+        );
+      }
+      if (password !== confirmPassword) {
+        return res(
+          ctx.status(400),
+          ctx.json({
+            res: `Passwords don't match!`,
+            error: true,
+          })
+        );
+      }
+
+      return res(
+        ctx.status(201),
+        ctx.json({result: testUser2.result , token: testUser2.token})
+      );
+      
+    }
+  )
+
 ];

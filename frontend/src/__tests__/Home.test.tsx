@@ -1,10 +1,7 @@
 /* eslint-disable testing-library/no-render-in-setup */
 import {
-  fireEvent,
   render,
-  RenderResult,
   screen,
-  waitFor,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from '../Components/Home/Home';
@@ -25,6 +22,13 @@ describe('Renders content', () => {
   });
 
   test('rendered components', () => {
+    expect(searchBar).not.toBe(null);
+    expect(titleInput).not.toBe(null);
+    expect(messageInput).not.toBe(null);
+    expect(tags).not.toBe(null);
+  })
+
+  test('the components have right attributes', () => {
     expect(searchBar).toHaveAttribute('type', 'search');
     expect(titleInput).toHaveAttribute('name', 'title');
     expect(messageInput).toHaveAttribute('name', 'message');

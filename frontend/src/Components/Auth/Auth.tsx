@@ -67,7 +67,7 @@ const Auth = ({isSignUp, handleSignUp}: AuthProps) => {
             {
               isSignUp ? (
                 <Grid item sx={{display: 'flex', justifyContent: 'space-between'}}>
-                  <CustomInput  name="firstName" label="First Name" handleChange={handleChange}  half={true}/>
+                  <CustomInput name="firstName" label="First Name" handleChange={handleChange}  half={true}/>
                   <CustomInput name="lastName" label="Last Name" handleChange={handleChange}  half={true}/>
                 </Grid>
                ) : null
@@ -76,7 +76,7 @@ const Auth = ({isSignUp, handleSignUp}: AuthProps) => {
             <CustomInput data-testid="password" type={showPassword ? "text" : "password"} name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} />
             {
 
-              isSignUp ?<CustomInput type={showPassword ? "text" : "password"} name="confirmPassword" label="Confirm Password" handleChange={handleChange} handleShowPassword={handleShowPassword} /> : null
+              isSignUp ? <CustomInput type={showPassword ? "text" : "confirmPassword"} name="confirmPassword" label="Confirm Password" handleChange={handleChange} handleShowPassword={handleShowPassword} /> : null
 
             }
           </Grid>
