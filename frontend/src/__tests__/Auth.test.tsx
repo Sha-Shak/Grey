@@ -24,7 +24,10 @@ describe('Tests for the login screen', () => {
 
 
   beforeEach(() => {
-    const { container } = render(<BrowserRouter><Auth isSignUp={false}/></BrowserRouter>);
+    const { container } = render(<BrowserRouter><Auth isSignUp={false} handleSignUp={function ()
+    {
+      throw new Error('Function not implemented.');
+    } }/></BrowserRouter>);
     emailInput = screen.getByRole('textbox', {name: 'Email Address'});
     passwordInput = container.querySelector(`input[name="password"]`);
     signInButton = screen.getByRole('button', {name: 'Sign In'});
@@ -83,7 +86,10 @@ describe('Tests for sign up', () => {
 
 
   beforeEach(() => {
-    const {container} = render(<BrowserRouter><Auth isSignUp={true}/></BrowserRouter>);
+    const {container} = render(<BrowserRouter><Auth isSignUp={true} handleSignUp={function ()
+    {
+      throw new Error('Function not implemented.');
+    } }/></BrowserRouter>);
     firstNameInput = screen.getByRole('textbox', {name: 'First Name'});
     lastNameInput = screen.getByRole('textbox', {name: 'Last Name'});
     emailInput = screen.getByRole('textbox', {name: 'Email Address'});

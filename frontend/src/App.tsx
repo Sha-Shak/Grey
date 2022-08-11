@@ -8,7 +8,6 @@ import PostDetail from './Components/PostDetail/PostDetail';
 import { mainContext } from './Helper/context';
 
 
-
 function App () { 
   const [ userContext, setUserContext ] = useState({});
   const [isSignUp, setIsSignUp] = useState(false);

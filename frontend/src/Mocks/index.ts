@@ -31,6 +31,20 @@ export const testUser2 = {
   token: 'eyJhbGciOiJIUzI1NiIsInR5c'
 }
 
+export const testPost = {
+  comments: [],
+  creator: 'Mariana',
+  likes: ['5151561'],
+  message: 'Coding is fun when you know what is going on with your code :)',
+  selectedFile: 'code',
+  tag: ['#try'],
+  title: 'Programming Truth',
+  updatedAt: 'today',
+  createdAt: 'yesterday',
+  __v: 0,
+  _id: '76848646',
+}
+
 export const routes = [
   rest.post<any>(
     url + '/user/signin',
