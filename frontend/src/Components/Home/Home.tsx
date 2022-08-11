@@ -66,7 +66,7 @@ const Home: FunctionComponent = () => {
   }
  
   const filter = (value: string) => {
-    const filter = totalPosts.filter((post: IPost) => post.title.toLowerCase().includes(value));
+    const filter = totalPosts.filter((post: IPost) => post.title?.toLowerCase().includes(value));
     setPosts(filter);
   }
 

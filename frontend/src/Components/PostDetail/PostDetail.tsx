@@ -33,7 +33,7 @@ const PostDetail: FunctionComponent = () => {
   return (
   
       <div>
-      <SinglePost post={data}/>
+        {data && <SinglePost post={data}/>}
       
       <div>
         {
@@ -42,12 +42,12 @@ const PostDetail: FunctionComponent = () => {
             <div>
               <form onSubmit={handleSubmit}>
                 <Grid item xs={12}>
-                  <TextField multiline maxRows={8} name="comment" variant = "outlined" label="Add a Comment..." fullWidth/>
+                  <TextField multiline maxRows={8} name="comment" variant = "outlined" label="Add a Comment..." fullWidth data-testid="comment"/>
                 </Grid>
-                <Button variant="contained" color="primary" type="submit">Add Comment</Button>
+                <Button variant="contained" color="primary" type="submit" data-testid="add-comment">Add Comment</Button>
               </form>
               <Grid container>
-                <Typography item variant = "h5">Comment({data.comments.length})</Typography>
+                <Typography item variant = "h5" data-testid="comment-number">Comment({data.comments.length})</Typography>
               </Grid>
               <Grid container>
               { !(postData.comments.length>0) 

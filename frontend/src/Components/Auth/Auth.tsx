@@ -8,8 +8,13 @@ import { styles } from './styles';
 
 const initialState= { firstName: '', email:'', lastName: '', password: '', confirmPassword: ''};
 
-const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+interface AuthProps {
+  isSignUp: boolean,
+  handleSignUp: () => any
+}
+
+const Auth = ({isSignUp, handleSignUp}: AuthProps) => {
+  
   const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -21,7 +26,7 @@ const Auth = () => {
 
   const handleSubmit = async(e: any) => {
     e.preventDefault();
-    if(isSignUp){
+    if (isSignUp) {
       try {
         const {data} = await api.createUser(formData);
         localStorage.setItem('user', JSON.stringify({...data}));
@@ -37,14 +42,14 @@ const Auth = () => {
         localStorage.setItem('user', JSON.stringify({...data}));
         navigate('/');
       } catch(e) {
-        alert(`There has been an error: ${e}`);
+        alert(`Invalid username or password`);
       }
     } 
   }
 
 
   const switchMode = () => {
-    setIsSignUp(prevIsSignUp=> !prevIsSignUp);
+    handleSignUp();
     setShowPassword(false);
   }
 
@@ -62,16 +67,16 @@ const Auth = () => {
             {
               isSignUp ? (
                 <Grid item sx={{display: 'flex', justifyContent: 'space-between'}}>
-                  <CustomInput  name="firstName" label="First Name" handleChange={handleChange}  half={true}/>
+                  <CustomInput name="firstName" label="First Name" handleChange={handleChange}  half={true}/>
                   <CustomInput name="lastName" label="Last Name" handleChange={handleChange}  half={true}/>
                 </Grid>
                ) : null
             }
             <CustomInput type="email" name="email" label="Email Address" handleChange={handleChange}/>
-            <CustomInput type={showPassword ? "text" : "password"} name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} />
+            <CustomInput data-testid="password" type={showPassword ? "text" : "password"} name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} />
             {
 
-              isSignUp ?<CustomInput type={showPassword ? "text" : "password"} name="confirmPassword" label="Confirm Password" handleChange={handleChange} handleShowPassword={handleShowPassword} /> : null
+              isSignUp ? <CustomInput type={showPassword ? "text" : "confirmPassword"} name="confirmPassword" label="Confirm Password" handleChange={handleChange} handleShowPassword={handleShowPassword} /> : null
 
             }
           </Grid>

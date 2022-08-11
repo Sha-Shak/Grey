@@ -8,7 +8,7 @@ interface CustomInputProps {
   type?: string,
   label?: string, 
   handleShowPassword?: (e: any) => any, 
-  name?: string
+  name?: string,
 };
 
 const Input = ({half, handleChange, type, label, handleShowPassword, name}: CustomInputProps) => {
