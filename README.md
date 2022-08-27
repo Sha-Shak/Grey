@@ -15,7 +15,7 @@ An anonymous forum app where people can post anonymously.
 
 ## Installation
 - Fork and clone this repository.
-- `cd client` into the cloned repo's client directory and run `npm install`.
+- `cd frontend` into the cloned repo's client directory and run `npm install`.
 - Run `npm start` and the React app should start.
 
 
